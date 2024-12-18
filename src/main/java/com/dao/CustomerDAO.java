@@ -1,5 +1,5 @@
 package com.dao;
 
-public class CustomerDAO {
+public interface CustomerDAO {
 
 }
