@@ -55,7 +55,7 @@ public class DriverService {
 	}
 	
 	//searching drivers by agency id
-	public List<Driver>findByAgencyId(Integer agenyId){
+	public List<Driver>findByAgencyId(Integer agencyId){
 		return driverDAO.findByAgencyId(agencyId);
 	}
 	
