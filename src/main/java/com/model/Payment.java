@@ -109,6 +109,4 @@ public class Payment {
 		this.paymentDate = paymentDate;
 		this.paymentStatus = paymentStatus;
 	}
-	
-	
 }

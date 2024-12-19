@@ -1,5 +1,6 @@
 package com.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,25 +14,30 @@ import java.util.Optional;
 public class PaymentService {
 
     @Autowired
-    private PaymentDAO paymentDAO;
+    private PaymentDAO paymentRepo;
 
-    // Save or update a payment
-    public Payment saveOrUpdatePayment(Payment payment) {
-        return paymentDAO.save(payment);
+    // Create a new payment
+    public void createPayment(Payment payment) {
+        paymentRepo.save(payment);  // Save the payment to the repository
     }
 
-    // Find a payment by ID
+    // Get a payment by its ID
     public Optional<Payment> getPaymentById(Integer paymentId) {
-        return paymentDAO.findById(paymentId);
+        return paymentRepo.findById(paymentId);  // Get payment by ID
     }
 
     // Get all payments
     public List<Payment> getAllPayments() {
-        return paymentDAO.findAll();
+        return paymentRepo.findAll();  // Get all payments
     }
 
-    // Delete a payment by ID
-    public void deletePayment(Integer paymentId) {
-        paymentDAO.deleteById(paymentId);
+    // Get payments by customer ID
+    public List<Payment> getPaymentsByCustomerId(Integer customerId) {
+        return paymentRepo.findByCustomer_Id(customerId);  // Custom query to find payments by customer ID
+    }
+
+    // Get payments by booking ID
+    public Optional<Payment> getPaymentByBookingId(Integer bookingId) {
+        return paymentRepo.findByBooking_BookingId(bookingId);  // Custom query to find payments by booking ID
     }
 }
