@@ -41,5 +41,5 @@ public class RouteService {
 	    
 	  public List<Route> findByFromCityAndToCity(String fromCity, String toCity) {
 	        return routeDAO.findByFromCityAndToCity(fromCity, toCity);
-	    }
+	    } 
 }
