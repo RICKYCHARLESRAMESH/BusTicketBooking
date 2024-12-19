@@ -1,5 +1,5 @@
 package com.dao;
 
-public interface BookingDAO {
+public interface BookingDAO extends{
 
 }
