@@ -22,6 +22,7 @@ public class Agency {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer agencyId;
 	
+	
 	@Column(nullable = false, length = 255)
 	private String name;
 	

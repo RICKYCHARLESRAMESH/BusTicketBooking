@@ -1,78 +1,75 @@
 package com.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.dao.DriverDAO;
+import com.model.Driver;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.dao.DriverDAO;
-import com.model.Driver;
-import com.model.Address;
-
 @Service
 public class DriverService {
-	
-	@Autowired
-	private DriverDAO driverDAO;
-	
-	//getter
-	public DriverDAO getDriverDAO() {
-		return driverDAO;
-	}
-	
-	//setter
-	public void setDriverDAO(DriverDAO driverDAO) {
-		this.driverDAO=driverDAO;
-	}
-	
-	//adding a new driver
-	public String save(Driver driver) {
-		driverDAO.save(driver);
-		return "Record Added Successfully";
-	}
-	
-	//searching all drivers
-	public List<Driver> findAll(){
-		return driverDAO.findAll();
-	}
-	
-	//searching driver by driver id
-	public Optional<Driver>findByDriverId(Integer driverId){
-		return driverDAO.findById(driverId);
-	}
-	
-	//updating driver details
-	public String updateDriver(Driver driver) {
-		driverDAO.save(driver);
-		return "Record Updated Successfully";
-	}
-	
-	//Delete driver
-	public String deleteDriver(Integer driverId) {
-		driverDAO.deleteById(driverId);
-		return "Record Deleted Successfully";
-	}
-	
-	//searching drivers by agency id
-	public List<Driver>findByAgencyId(Integer agencyId){
-		return driverDAO.findByAgencyId(agencyId);
-	}
-	
-	//searching drivers by office id
-	public List<Driver>findByOfficeId(Integer officeId){
-		return driverDAO.findByOfficeId(officeId);
-	}
-	
-	//searching address of the driver by driver id
-	public Optional<Address> findAddressByDriverId(Integer driverId){
-		return driverDAO.findAddressByDriverId(driverId);
-	}
-	
-	//update address of the driver
-	public String updateAddress(Address address) {
-		driverDAO.saveAddress(address);
-		return "Record Updated Successfully";
-	}
 
+    @Autowired
+    private DriverDAO driverDAO;
+
+    // Get all drivers
+    public List<Driver> getAllDrivers() {
+        return driverDAO.findAll();
+    }
+
+    // Get driver by ID
+    public Optional<Driver> getDriverById(Integer driverId) {
+        return driverDAO.findById(driverId);
+    }
+
+    // Add new driver
+    public Driver addDriver(Driver driver) {
+        return driverDAO.save(driver);
+    }
+
+    // Update driver details
+    public Driver updateDriver(Integer driverId, Driver updatedDriver) {
+        if (driverDAO.existsById(driverId)) {
+            updatedDriver.setDriverId(driverId);
+            return driverDAO.save(updatedDriver);
+        }
+        return null;
+    }
+
+    // Delete driver
+    public String deleteDriver(Integer driverId) {
+        if (driverDAO.existsById(driverId)) {
+            driverDAO.deleteById(driverId);
+            return "Record Deleted Successfully";
+        }
+        return "Driver not found";
+    }
+
+    // Get drivers by agency ID
+    public List<Driver> getDriversByAgencyId(Integer agencyId) {
+        return driverDAO.findByAgencyOfficeAgencyId(agencyId);
+    }
+
+    // Get drivers by office ID
+    public List<Driver> getDriversByOfficeId(Integer officeId) {
+        return driverDAO.findByAgencyOfficeOfficeId(officeId);
+    }
+
+    // Get address of the driver by driver ID
+    public Driver getDriverAddressById(Integer driverId) {
+        Optional<Driver> driver = driverDAO.findById(driverId);
+        return driver.isPresent() ? driver.get() : null;
+    }
+
+    // Update address of the driver
+    public String updateDriverAddress(Integer driverId, Driver updatedDriver) {
+        if (driverDAO.existsById(driverId)) {
+            updatedDriver.setDriverId(driverId);
+            driverDAO.save(updatedDriver);
+            return "Record Updated Successfully";
+        }
+        return "Driver not found";
+    }
 }

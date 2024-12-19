@@ -23,6 +23,10 @@ public class Address {
 	@Column(nullable = false,length = 255)
 	private String state;
 	
+	//adding address columnn (Bhargavi)
+	@Column(nullable = false, length = 255)
+    private String country;
+	
 	@Column(name = "zip_code", nullable = false , length = 10)
 	private String zipcode;
 
@@ -65,15 +69,25 @@ public class Address {
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
+	
+	//Added country (Bhargavi)
+	public String getCountry() {
+        return country; // Getter for country
+    }
+	
+	
+	//Added country (Bhargavi)
+    public void setCountry(String country) {
+        this.country = country; // Setter for country
+    }
 
-	public Address(Integer addressId, String address, String city, String state, String zipcode) {
-		super();
-		this.addressId = addressId;
-		this.address = address;
-		this.city = city;
-		this.state = state;
-		this.zipcode = zipcode;
-	}
-	
-	
+    public Address(Integer addressId, String address, String city, String state, String zipcode, String country) {
+        super();
+        this.addressId = addressId;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.country = country; // Constructor with country (Bhargavi)
+    }
 }
