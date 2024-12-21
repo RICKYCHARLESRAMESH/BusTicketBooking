@@ -1,5 +1,7 @@
 package com.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -21,10 +23,12 @@ public class Driver {
 
 	    @ManyToOne
 	    @JoinColumn(name = "office_id")
+	    @JsonIgnore
 	    private AgencyOffice agencyOffice;
 
 	    @ManyToOne
 	    @JoinColumn(name = "address_id")
+	    @JsonIgnore
 	    private Address address;
 
 	    public Driver() {

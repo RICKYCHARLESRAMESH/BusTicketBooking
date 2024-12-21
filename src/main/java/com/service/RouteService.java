@@ -46,6 +46,11 @@ public class RouteService {
 	    public List<Route> findByFromCityAndToCity(String fromCity, String toCity) {
 	        return routeRepo.findByFromCityAndToCity(fromCity, toCity);
 	    }
+	    
+	    // Delete a route by ID
+	    public void deleteByRouteId(Integer routeId) {
+	        routeRepo.deleteById(routeId);
 
 
 }
+	    }

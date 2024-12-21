@@ -1,6 +1,8 @@
 package com.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public class Bus {
  
 	@ManyToOne
 	@JoinColumn(name = "office_id", nullable = false)
+	@JsonIgnore
 
 	private AgencyOffice agencyOffice;
  

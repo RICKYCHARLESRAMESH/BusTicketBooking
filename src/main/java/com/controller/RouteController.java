@@ -7,10 +7,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,4 +75,19 @@ public class RouteController {
 	    
 	    return ResponseEntity.ok(routes);
 	}
+	
+	
+	  @PutMapping // --------------------------UPDATE Route Details--------------------------
+	    public ResponseEntity<String> updateRoute(@RequestBody Route route) {
+	        routeService.save(route); // Save the updated route details
+	        String message = "Record Updated Successfully";
+	        return ResponseEntity.status(HttpStatus.OK).body(message); // Return success message
+	    }
+
+	    @DeleteMapping("/{route_id}") // --------------------------DELETE Route--------------------------
+	    public ResponseEntity<String> deleteRoute(@PathVariable Integer route_id) {
+	        routeService.deleteByRouteId(route_id); // Delete the route
+	        String message = "Record Deleted Successfully";
+	        return ResponseEntity.status(HttpStatus.OK).body(message); // Return success message
+	    }
 }

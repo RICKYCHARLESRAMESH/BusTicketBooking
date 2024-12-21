@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "payments")
@@ -17,12 +19,12 @@ public class Payment {
  
 	@OneToOne
 	@JoinColumn(name = "booking_id", nullable = false)
-
+	@JsonIgnore
 	private Booking booking;
  
 	@OneToOne
 	@JoinColumn(name = "customer_id")
-
+	@JsonIgnore
 	private Customer customer;
  
 	@Column(nullable = false, precision = 10, scale = 2)

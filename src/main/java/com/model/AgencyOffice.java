@@ -1,5 +1,7 @@
 package com.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,7 @@ public class AgencyOffice {
 	
 	@ManyToOne
 	@JoinColumn(name = "office_address_id")
+	@JsonIgnore
 	private Address officeAddress;
 	
 	public AgencyOffice()
@@ -101,3 +104,7 @@ public class AgencyOffice {
 		this.officeAddress = officeAddress;
 	}
 }
+
+
+
+

@@ -1,6 +1,8 @@
 package com.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -13,9 +15,11 @@ public class Booking {
  
 	@ManyToOne
 	@JoinColumn(name = "trip_id")
+	@JsonIgnore
 	private Trip trip;
 	
 	@OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Payment payment;
  
 	@Column(name = "seat_number", nullable = false)

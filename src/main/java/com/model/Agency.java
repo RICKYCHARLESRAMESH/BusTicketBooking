@@ -2,7 +2,7 @@ package com.model;
 
 import java.util.List;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,7 +35,7 @@ public class Agency {
 	private String phone;
 	
 	@OneToMany(mappedBy = "agency", cascade= CascadeType.ALL, fetch = FetchType.LAZY)
-	
+	@JsonIgnore
 	private List<AgencyOffice> offices;
 	
 	public Integer getAgencyId() {
@@ -105,3 +105,5 @@ public class Agency {
 	
 
 }
+
+

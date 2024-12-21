@@ -2,6 +2,8 @@ package com.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 @Entity
 @Table(name = "customers")
@@ -22,9 +24,11 @@ public class Customer {
 
     @ManyToOne
     @JoinColumn(name = "address_id")
+    @JsonIgnore
     private Address address;
    
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Payment payment;
 
     public Customer() {
