@@ -16,4 +16,5 @@ public interface PaymentDAO extends JpaRepository<Payment, Integer> {
 
     // Find payments by booking ID
     Optional<Payment> findByBooking_BookingId(Integer bookingId);
+
 }

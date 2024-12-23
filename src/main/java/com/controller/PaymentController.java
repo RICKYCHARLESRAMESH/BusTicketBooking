@@ -43,6 +43,9 @@ public class PaymentController {
         List<Payment> payments = paymentService.getAllPayments();
         return ResponseEntity.ok(payments);
     }
+    
+    
+    
 
     // Get payments by customer ID
     @GetMapping("/customer/{customer_id}")
@@ -61,4 +64,6 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+    
+    
 }

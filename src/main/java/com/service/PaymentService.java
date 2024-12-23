@@ -40,4 +40,9 @@ public class PaymentService {
     public Optional<Payment> getPaymentByBookingId(Integer bookingId) {
         return paymentRepo.findByBooking_BookingId(bookingId);  // Custom query to find payments by booking ID
     }
+    
+    
+    
+
+   
 }

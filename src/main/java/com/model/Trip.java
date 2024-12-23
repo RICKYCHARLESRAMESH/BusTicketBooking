@@ -217,4 +217,22 @@ public class Trip{
 	}
 
  
+	
+	
+	
+	//anu
+		public void setFromCity(String string) {
+			// TODO Auto-generated method stub
+			
+		}
+	   //anu
+		public void setToCity(String string) {
+			// TODO Auto-generated method stub
+			
+		}
+	    //anu
+		public void setType(String string) {
+			// TODO Auto-generated method stub
+	
    }
+}

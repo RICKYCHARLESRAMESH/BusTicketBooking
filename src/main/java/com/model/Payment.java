@@ -21,6 +21,7 @@ public class Payment {
 	@JoinColumn(name = "booking_id", nullable = false)
 	@JsonIgnore
 	private Booking booking;
+	
  
 	@OneToOne
 	@JoinColumn(name = "customer_id")
@@ -111,4 +112,21 @@ public class Payment {
 		this.paymentDate = paymentDate;
 		this.paymentStatus = paymentStatus;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
