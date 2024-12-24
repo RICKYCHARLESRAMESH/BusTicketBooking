@@ -61,7 +61,7 @@ public class BusTicketBookingApplication {
 	        .csrf().disable() // Disable CSRF protection
 	        
 	        .authorizeRequests()
-	            .requestMatchers("/api/auth").permitAll()
+	           
 	            
 	                .requestMatchers(HttpMethod.PUT,"/api/manager/register/*").hasRole("ADMIN")
 	                .requestMatchers("/api/user/register").permitAll()
@@ -142,6 +142,13 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.GET,"/api/trips/{from_city}/{to_city}/{trip_date}").hasAnyRole("ADMIN","USER")
 	                .requestMatchers(HttpMethod.DELETE,"/api/trips/{trip_id}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/trips/trip_date/{trip_date}").hasAnyRole("ADMIN","USER")
+	                
+	                
+	                .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+	                .requestMatchers(HttpMethod.POST, "/api/driver/register").permitAll()
+	                .requestMatchers(HttpMethod.POST, "/api/admin/register").permitAll()
+	                .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
+	   
 	               
 	                  
 

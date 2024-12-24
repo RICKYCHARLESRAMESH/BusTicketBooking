@@ -41,8 +41,5 @@ public class PaymentService {
         return paymentRepo.findByBooking_BookingId(bookingId);  // Custom query to find payments by booking ID
     }
     
-    
-    
-
-   
+  
 }

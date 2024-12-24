@@ -1,4 +1,4 @@
-package com.test;
+package com.controllerTest;
  
 import com.controller.TripController;
 import com.model.Trip;

@@ -33,11 +33,20 @@ public class JwtFilter extends OncePerRequestFilter {
 	        return;
 	    }
 
+//	    if ((request.getRequestURI().startsWith("/api/auth") && request.getMethod().equals("POST")) ||
+//	        (request.getRequestURI().equals("/api/user/register") && request.getMethod().equals("POST"))) {
+//	        filterChain.doFilter(request, response);
+//	        return;
+//	    }
+	    
+	    
 	    if ((request.getRequestURI().startsWith("/api/auth") && request.getMethod().equals("POST")) ||
-	        (request.getRequestURI().equals("/api/user/register") && request.getMethod().equals("POST"))) {
-	        filterChain.doFilter(request, response);
-	        return;
-	    }
+		        (request.getRequestURI().equals("/api/user/register") && request.getMethod().equals("POST")) ||
+		        (request.getRequestURI().equals("/api/driver/register") && request.getMethod().equals("POST")) ||
+		        (request.getRequestURI().equals("/api/admin/register") && request.getMethod().equals("POST"))){
+		        filterChain.doFilter(request, response);
+		        return;
+		    }
 
 	    String header_token = request.getHeader("Authorization");
 	    if (header_token != null && header_token.startsWith("Bearer ")) {
@@ -61,19 +70,19 @@ public class JwtFilter extends OncePerRequestFilter {
 	            } else {
 	                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	                response.setContentType("application/json");
-	                response.getWriter().write("{\"error\": \"Invalid token\"}");
+	                response.getWriter().write("{\"error\": \"Invalid token1\"}");
 	                return;
 	            }
 	        } catch (JwtException | IllegalArgumentException e) {
 	            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	            response.setContentType("application/json");
-	            response.getWriter().write("{\"error\": \"Invalid token\"}");
+	            response.getWriter().write("{\"error\": \"Invalid token2\"}");
 	            return;
 	        }
 	    } else {
 	        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	        response.setContentType("application/json");
-	        response.getWriter().write("{\"error\": \"Invalid token\"}");
+	        response.getWriter().write("{\"error\": \"Invalid token3\"}");
 	    }
 	}
 }

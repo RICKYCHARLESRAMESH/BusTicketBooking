@@ -1,4 +1,4 @@
-package com.test;
+package com.controllerTest;
 
 import com.controller.BusController;
 import com.model.Bus;

@@ -1,4 +1,4 @@
-package com.test;
+package com.controllerTest;
  
 import com.controller.PaymentController;
 import com.model.Payment;

@@ -1,5 +1,5 @@
   
-package com.test;
+package com.controllerTest;
  
 import static org.junit.jupiter.api.Assertions.*;
  
