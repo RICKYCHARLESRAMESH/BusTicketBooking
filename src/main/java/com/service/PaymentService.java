@@ -4,7 +4,9 @@ package com.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dao.PaymentDAO;
+import com.dao.BookingDAO;
+import com.dao.*;
+import com.model.Booking;
 import com.model.Payment;
 
 import java.util.List;
@@ -15,9 +17,20 @@ public class PaymentService {
 
     @Autowired
     private PaymentDAO paymentRepo;
+    
+    @Autowired
+    private BookingDAO bookingDAO;
+    
+    @Autowired
+    private CustomerDAO customerDAO;
 
     // Create a new payment
     public void createPayment(Payment payment) {
+    	Booking existingBooking = bookingDAO.findById(payment.getBooking().getBookingId()).get();
+    	Payment savePayment = new Payment();
+    	savePayment.setCustomer(customerDAO.findById(payment.getCustomer().getId()).get());
+    	savePayment.setAmount(payment.getAmount());
+    	savePayment.setBooking(existingBooking);
         paymentRepo.save(payment);  // Save the payment to the repository
     }
 

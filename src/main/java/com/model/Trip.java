@@ -5,75 +5,75 @@ import jakarta.persistence.*;
  
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
  
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
  
  
 @Entity
 @Table(name = "trips")
 public class Trip{
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="trip_id")
 	private int id;
-	@ManyToOne
-	@JoinColumn(name = "route_id", nullable = false)
-	@JsonIgnore
-	private Route route;
-	@ManyToOne
-	@JoinColumn(name = "bus_id", nullable = false)
-	@JsonIgnore
-	private Bus bus;
+	
+	@Column(name = "departure_time", nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") // Define the expected format
+	private LocalDateTime departureTime;
+	
+	@Column(name = "available_seats", nullable = false)
+	private Integer availableSeats;
  
+	@Column(nullable = false, precision = 10, scale = 2)
+	private BigDecimal fare;
+	
 	@Column(name = "boarding_address_id", nullable = false)
 	private Integer boardingAddressId;
  
 	@Column(name = "dropping_address_id", nullable = false)
 	private Integer droppingAddressId;
  
-	@Column(name = "departure_time", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private LocalDateTime departureTime;
- 
 	@Column(name = "arrival_time", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime arrivalTime;
- 
- 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "driver1_driver_id", nullable = false)
-	@JsonIgnore
-	private Driver driver1;
- 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "driver2_driver_id", nullable = false)
-	@JsonIgnore
-	private Driver driver2;
-
- 
- 
-	@Column(name = "available_seats", nullable = false)
-	private Integer availableSeats;
- 
-	@Column(nullable = false, precision = 10, scale = 2)
-	private BigDecimal fare;
  
 	@Column(name = "trip_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime tripDate;
-	//added anu from bus class
-	@Column(nullable = false, length = 30)
-	private String type;
  
-	//added anu
-	@Column(name = "from_city", nullable = false, length = 255)
-	private String fromCity;
-	//added anu
-	@Column(name = "to_city", nullable = false, length = 255)
-	private String toCity;
-	//added
-
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "route_id", nullable = false,referencedColumnName="route_id")
+	//@JsonIgnore
+	private Route route;
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "bus_id", nullable = false,referencedColumnName="bus_id")
+	//@JsonIgnore
+	private Bus bus;
  
+//    @ManyToOne(cascade=CascadeType.ALL)
+//	@JoinColumn(name="driver_id",nullable=false,referencedColumnName="driver_id")
+//    //@JsonIgnore
+//	private Driver driver;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "driver_id", nullable = true, referencedColumnName = "driver_id") // nullable = true for optional driver
+	private Driver driver;
+ 
+ 
+//anu
+public LocalDateTime parseTripDate(String tripDate) {
+    return LocalDateTime.parse(tripDate); // Parses ISO-8601 by default
+}
  
  
 	
@@ -88,6 +88,30 @@ public class Trip{
 	public int getId() {
 		return id;
 	}
+ 
+	
+ 
+ 
+	
+ 
+ 
+	public Driver getDriver() {
+		return driver;
+	}
+ 
+ 
+ 
+ 
+ 
+ 
+	public void setDriver(Driver driver) {
+		this.driver = driver;
+	}
+ 
+ 
+ 
+ 
+ 
  
 	public void setId(int id) {
 		this.id = id;
@@ -141,21 +165,7 @@ public class Trip{
 		this.arrivalTime = arrivalTime;
 	}
  
-	public Driver getDriver1() {
-		return driver1;
-	}
- 
-	public void setDriver1(Driver driver1) {
-		this.driver1 = driver1;
-	}
- 
-	public Driver getDriver2() {
-		return driver2;
-	}
- 
-	public void setDriver2(Driver driver2) {
-		this.driver2 = driver2;
-	}
+	
  
 	public Integer getAvailableSeats() {
 		return availableSeats;
@@ -180,9 +190,10 @@ public class Trip{
 	public void setTripDate(LocalDateTime tripDate) {
 		this.tripDate = tripDate;
 	}
+	
  
 	public Trip(int id, Route route, Bus bus, Integer boardingAddressId, Integer droppingAddressId,
-			LocalDateTime departureTime, LocalDateTime arrivalTime, Driver driver1, Driver driver2,
+			LocalDateTime departureTime, LocalDateTime arrivalTime, Driver driver,
 			Integer availableSeats, BigDecimal fare, LocalDateTime tripDate) {
 		super();
 		this.id = id;
@@ -192,47 +203,20 @@ public class Trip{
 		this.droppingAddressId = droppingAddressId;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
-		this.driver1 = driver1;
-		this.driver2 = driver2;
+		this.driver=driver;
 		this.availableSeats = availableSeats;
 		this.fare = fare;
 		this.tripDate = tripDate;
 	}
  
-	public Object getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
- 
+	
 	
  
 	public void setTripId(Integer tripId) {
 		// TODO Auto-generated method stub
+		
 	}
 //	
- 
-	public Object getDuration() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
  
-	
-	
-	
-	//anu
-		public void setFromCity(String string) {
-			// TODO Auto-generated method stub
-			
-		}
-	   //anu
-		public void setToCity(String string) {
-			// TODO Auto-generated method stub
-			
-		}
-	    //anu
-		public void setType(String string) {
-			// TODO Auto-generated method stub
-	
    }
-}

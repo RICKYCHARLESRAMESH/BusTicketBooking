@@ -1,5 +1,7 @@
 package com.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -8,8 +10,11 @@ import jakarta.persistence.*;
 @Table(name = "drivers")
 public class Driver {
 	
-	  @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	  
+	   
+	    @Id
+	    @GeneratedValue(strategy = GenerationType.AUTO)
+	    @Column(name = "driver_id", nullable = false, length = 20)
 	    private Integer driverId;
 
 	    @Column(name = "license_number", nullable = false, length = 20)
@@ -30,6 +35,11 @@ public class Driver {
 	    @JoinColumn(name = "address_id")
 	    @JsonIgnore
 	    private Address address;
+	 
+ 
+  @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+	    @JsonIgnore
+	    private List<Trip> trip;
 
 	    public Driver() {
 	        super();

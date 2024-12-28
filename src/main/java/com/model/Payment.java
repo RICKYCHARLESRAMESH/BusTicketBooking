@@ -3,8 +3,9 @@ package com.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -13,29 +14,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Payment {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer paymentId;
  
-	@OneToOne
-	@JoinColumn(name = "booking_id", nullable = false)
+	@OneToOne(cascade =CascadeType.ALL)
+	@JoinColumn(name = "booking_id")
 	@JsonIgnore
 	private Booking booking;
 	
  
-	@OneToOne
+	@OneToOne(cascade =CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	@JsonIgnore
 	private Customer customer;
  
-	@Column(nullable = false, precision = 10, scale = 2)
-
+	@Column(nullable = false)
 	private BigDecimal amount;
  
 	@Column(name = "payment_date")
 	@Temporal(TemporalType.TIMESTAMP)
-
-	private Date paymentDate;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	private LocalDateTime paymentDate;
  
 	@Enumerated(EnumType.STRING)
 	@Column(name = "payment_status", nullable = false)
@@ -86,11 +85,11 @@ public class Payment {
 		this.amount = amount;
 	}
 
-	public Date getPaymentDate() {
+	public LocalDateTime getPaymentDate() {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(Date paymentDate) {
+	public void setPaymentDate(LocalDateTime paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 
@@ -102,7 +101,7 @@ public class Payment {
 		this.paymentStatus = paymentStatus;
 	}
 
-	public Payment(Integer paymentId, Booking booking, Customer customer, BigDecimal amount, Date paymentDate,
+	public Payment(Integer paymentId, Booking booking, Customer customer, BigDecimal amount, LocalDateTime paymentDate,
 			PaymentStatus paymentStatus) {
 		super();
 		this.paymentId = paymentId;
@@ -112,21 +111,12 @@ public class Payment {
 		this.paymentDate = paymentDate;
 		this.paymentStatus = paymentStatus;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Payment [paymentId=" + paymentId + ", booking=" + booking + ", customer=" + customer + ", amount="
+				+ amount + ", paymentDate=" + paymentDate + ", paymentStatus=" + paymentStatus + "]";
+	}
 	
 	
 }

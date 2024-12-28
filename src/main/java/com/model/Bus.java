@@ -1,21 +1,32 @@
 package com.model;
-
-
+ 
+ 
+import java.util.List;
+ 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+ 
 import jakarta.persistence.*;
-
+ 
 @Entity
 @Table(name = "buses")
 public class Bus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="bus_id")
 	private Integer busId;
+	
+	@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL,orphanRemoval=true)
+    @JsonIgnore
+    private List<Trip> trip;
  
 	@ManyToOne
 	@JoinColumn(name = "office_id", nullable = false)
-	@JsonIgnore
-
+	//@JsonIgnore
+	
+	
+	
+	
+ 
 	private AgencyOffice agencyOffice;
  
 	@Column(name = "registration_number", nullable = false, length = 20)
@@ -31,47 +42,54 @@ public class Bus {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+ 
 	public Integer getBusId() {
 		return busId;
 	}
-
+ 
 	public void setBusId(Integer busId) {
 		this.busId = busId;
 	}
-
+ 
 	public AgencyOffice getAgencyOffice() {
 		return agencyOffice;
 	}
-
+ 
 	public void setAgencyOffice(AgencyOffice agencyOffice) {
 		this.agencyOffice = agencyOffice;
 	}
-
+ 
 	public String getRegistrationNumber() {
 		return registrationNumber;
 	}
-
+ 
 	public void setRegistrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
 	}
-
+ 
 	public Integer getCapacity() {
 		return capacity;
 	}
-
+ 
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
-
+ 
 	public String getType() {
 		return type;
 	}
-
+ 
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	public List<Trip> getTrip() {
+	    return trip;
+	}
+ 
+	public void setTrip(List<Trip> trip) {
+	    this.trip = trip;
+	}
+ 
 	public Bus(Integer busId, AgencyOffice agencyOffice, String registrationNumber, Integer capacity, String type) {
 		super();
 		this.busId = busId;
@@ -84,4 +102,3 @@ public class Bus {
     
     
 }
-

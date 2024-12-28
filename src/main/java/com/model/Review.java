@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
  
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
  
  
 @Entity
@@ -16,7 +17,7 @@ public class Review {
 	@Id
 
 	@Column(name="review_id")
-
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int reviewId;
  
 	@ManyToOne
@@ -42,6 +43,7 @@ public class Review {
 	@JoinColumn(name = "agency_id", nullable = false)
 
 	@JsonIgnore
+	@JsonManagedReference
 
 	private Agency agency;
 

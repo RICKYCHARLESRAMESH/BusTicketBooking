@@ -1,5 +1,6 @@
 package com.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -17,12 +18,13 @@ import jakarta.persistence.Table;
 public class AgencyOffice {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer officeId;
 	
 	@ManyToOne
 	@JoinColumn(name = "agency_id",nullable = false)
-
+	@JsonIgnore
+    @JsonBackReference
 	
 	private Agency agency;
 	

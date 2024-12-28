@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
  
 @Service
@@ -14,14 +15,13 @@ public class TripService {
     @Autowired
     private TripDAO tripDAO;
  
-    public Trip saveTrip(Trip trip) {
-    	
- 
-    	
- 
-    	
-        return tripDAO.save(trip);
+    public void saveTrip(Trip trip) {
+        if (trip.getBus() == null) {
+            throw new IllegalArgumentException("Bus cannot be null");
+        }
+        tripDAO.save(trip);
     }
+ 
  
     public Trip getTripById(Integer id) {
         return tripDAO.findById(id).orElseThrow(() -> new RuntimeException("Trip not found"));
@@ -47,20 +47,25 @@ public class TripService {
         return tripDAO.findByBusType(busType);
     }
  
-    public List<Trip> searchByBusTypeAndTripDate(String busType, LocalDate tripDate) {
+    public List<Trip> searchByBusTypeAndTripDate(String busType, LocalDateTime tripDate) {
         return tripDAO.findByBusTypeAndTripDate(busType, tripDate);
     }
  
+//    public List<Trip> searchByFromCityToCityDateType(
+//            String fromCity, String toCity, LocalDateTime tripDate, String busType) {
+//        return tripDAO.findByFromCityAndToCityAndTripDateandBusType(fromCity, toCity, tripDate, busType);
+//    }
     public List<Trip> searchByFromCityToCityDateType(
-            String fromCity, String toCity, LocalDate tripDate, String busType) {
-        return tripDAO.findByFromCityAndToCityAndTripDateAndBusType(fromCity, toCity, tripDate, busType);
+            String fromCity, String toCity, LocalDateTime tripDate, String bustype) {
+        return tripDAO.findByFromCityAndToCityAndTripDateAndBusType(
+                fromCity, toCity, tripDate, bustype);
     }
  
-    public List<Trip> searchByFromCityToCityDate(String fromCity, String toCity, LocalDate tripDate) {
+    public List<Trip> searchByFromCityToCityDate(String fromCity, String toCity, LocalDateTime tripDate) {
         return tripDAO.findByFromCityAndToCityAndTripDate(fromCity, toCity, tripDate);
     }
- 
-    public List<Trip> searchByTripDate(LocalDate tripDate) {
+//anu
+    public List<Trip> searchByTripDate(LocalDateTime tripDate) {
         return tripDAO.findByTripDate(tripDate);
     }
 }

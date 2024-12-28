@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @Table(name = "bookings")
 public class Booking {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="booking_id")
 	private int bookingId;
  
@@ -18,8 +18,9 @@ public class Booking {
 	@JsonIgnore
 	private Trip trip;
 	
-	@OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
 	@JsonIgnore
+
 	private Payment payment;
  
 	@Column(name = "seat_number", nullable = false)
@@ -72,6 +73,12 @@ public class Booking {
 
 	public void setStatus(BookingStatus status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Booking [bookingId=" + bookingId + ", trip=" + trip + ", payment=" + payment + ", seatNumber="
+				+ seatNumber + ", status=" + status + "]";
 	}
 	
 	

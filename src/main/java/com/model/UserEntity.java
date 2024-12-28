@@ -16,7 +16,7 @@ import jakarta.persistence.OneToMany;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long user_id;
     
     @Column(unique=true,nullable=false)

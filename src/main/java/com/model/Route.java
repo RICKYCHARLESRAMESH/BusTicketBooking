@@ -1,5 +1,9 @@
 package com.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -7,7 +11,8 @@ import jakarta.persistence.*;
 public class Route {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="route_id")
 	private Integer routeId;
 
 	@Column(name = "from_city", nullable = false, length = 255)
@@ -21,10 +26,22 @@ public class Route {
 
 	@Column(nullable = false)
 	private Integer duration;
+	
+	@OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
+	    @JsonIgnore
+	    private List<Trip> trip;
 
 	public Route() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public List<Trip> getTrip() {
+		return trip;
+	}
+
+	public void setTrip(List<Trip> trip) {
+		this.trip = trip;
 	}
 
 	public Route(Integer routeId, String fromCity, String toCity, Integer breakPoints, Integer duration) {

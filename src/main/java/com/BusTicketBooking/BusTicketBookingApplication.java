@@ -70,6 +70,7 @@ public class BusTicketBookingApplication {
 	                
 	                .requestMatchers(HttpMethod.POST, "/api/agencies/addAgency").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies/{agencyId}").hasAnyRole("ADMIN")
+	                .requestMatchers(HttpMethod.GET,"/api/agencies").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.PUT,"/api/agencies/updateAgency/{agencyId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies/offices/{agencyId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies/offices/{agencyId}/{officeId}").hasAnyRole("ADMIN")
@@ -98,14 +99,14 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.GET,"/api/drivers").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.POST,"/api/drivers").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/drivers/{driverId}").hasAnyRole("ADMIN")
-	                .requestMatchers(HttpMethod.PUT,"/api/drivers/{driverId}").hasAnyRole("ADMIN","DRIVER")
+	                .requestMatchers(HttpMethod.PUT,"/api/drivers/{driverId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.DELETE,"/api/drivers/{driverId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/drivers/agency/{agencyId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/drivers/office/{officeId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/drivers/address/{driverId}").hasAnyRole("ADMIN")
-	                .requestMatchers(HttpMethod.PUT,"/api/drivers/address/{driverId}").hasAnyRole("ADMIN","DRIVER")
+	                .requestMatchers(HttpMethod.PUT,"/api/drivers/address/{driverId}").hasAnyRole("ADMIN")
 	                
-	                .requestMatchers(HttpMethod.POST,"/api/payment/add").hasAnyRole("USER")
+	                .requestMatchers(HttpMethod.POST,"/api/payment/add").hasAnyRole("USER","ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/payment/{payment_id}").hasAnyRole("ADMIN","USER")
 	                .requestMatchers(HttpMethod.GET,"/api/payment/").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/payment/customer/{customer_id}").hasAnyRole("ADMIN")
@@ -148,6 +149,14 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.POST, "/api/driver/register").permitAll()
 	                .requestMatchers(HttpMethod.POST, "/api/admin/register").permitAll()
 	                .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
+	                
+	                
+	                
+	                .requestMatchers(HttpMethod.GET,"/api/bookings").hasAnyRole("ADMIN","USER")
+	                .requestMatchers(HttpMethod.GET,"/api/bookings/{id}").hasAnyRole("ADMIN","USER")
+	                .requestMatchers(HttpMethod.POST,"/api/bookings").hasAnyRole("ADMIN","USER")
+	                .requestMatchers(HttpMethod.PUT,"/api/bookings/{id}").hasAnyRole("ADMIN","USER")
+	                .requestMatchers(HttpMethod.DELETE,"/api/bookings/{id}").hasAnyRole("ADMIN","USER")
 	   
 	               
 	                  

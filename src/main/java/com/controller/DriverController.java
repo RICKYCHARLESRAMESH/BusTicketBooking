@@ -30,10 +30,20 @@ public class DriverController {
     }
  
     // Search driver details by driver id
+//    @GetMapping("/{driverId}")
+//    public ResponseEntity<Driver> getDriverById(@PathVariable Integer driverId) {
+//        Optional<Driver> driver = driverService.getDriverById(driverId);
+//        return driver.isPresent() ? ResponseEntity.ok(driver.get()) : ResponseEntity.notFound().build();
+//    }
+    
     @GetMapping("/{driverId}")
-    public ResponseEntity<Driver> getDriverById(@PathVariable Integer driverId) {
-        Optional<Driver> driver = driverService.getDriverById(driverId);
-        return driver.isPresent() ? ResponseEntity.ok(driver.get()) : ResponseEntity.notFound().build();
+    public ResponseEntity<Optional<Driver>> getDriverById(@PathVariable Integer driverId) {
+        Optional<Driver> driver = driverService.getDriverById(driverId); // Assume this method directly returns Driver
+        if (driver != null) {
+            return ResponseEntity.ok(driver);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
  
     // Update driver details

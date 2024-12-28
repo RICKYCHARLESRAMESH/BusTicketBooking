@@ -2,14 +2,16 @@ package com.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 @Entity
 @Table(name = "customers")
 public class Customer {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="customer_id")
     private int id;
 
@@ -23,12 +25,14 @@ public class Customer {
     private String phone;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "address_id")
     @JsonIgnore
     private Address address;
    
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonManagedReference
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+	@JsonIgnore
     private Payment payment;
 
     public Customer() {

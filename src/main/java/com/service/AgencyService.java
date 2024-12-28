@@ -63,4 +63,9 @@ public class AgencyService {
                 .findFirst()
                 .orElse(null);
     }
+
+	// Method to get all agencies
+    public List<Agency> getAllAgencies() {
+        return agencyDAO.findAll(); // Assuming you're using JPA, this returns a list of all agencies
+    }
 }
