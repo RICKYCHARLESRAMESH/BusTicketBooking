@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Trip{
 	
 	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="trip_id")
 	private int id;
 	
