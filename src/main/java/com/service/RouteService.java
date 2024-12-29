@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dao.RouteDAO;
+import com.model.Agency;
 import com.model.Route;
 
 
@@ -27,6 +28,9 @@ public class RouteService {
 	public Route save(Route route) {
         return routeRepo.save(route);
     }
+	public List<Route> findAll() {
+	    return routeRepo.findAll();
+	}
 	
 	public Optional<Route> findByRouteId(Integer routeId) {
         return routeRepo.findById(routeId);
@@ -53,4 +57,5 @@ public class RouteService {
 
 
 }
+	 
 	    }

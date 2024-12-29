@@ -82,7 +82,7 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.DELETE,"/api/buses/{bus_id}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/buses/office/{office_id}").hasAnyRole("ADMIN","USER")
 	                
-	                .requestMatchers(HttpMethod.POST,"/api/customers").hasAnyRole("USER")
+	                .requestMatchers(HttpMethod.POST,"/api/customers").hasAnyRole("USER","DRIVER")
 	                .requestMatchers(HttpMethod.GET,"/api/customers").hasAnyRole("ADMIN","DRIVER")
 	                .requestMatchers(HttpMethod.GET,"/api/customers/{customerId}").hasAnyRole("ADMIN","DRIVER")
 	                .requestMatchers(HttpMethod.GET,"/api/customers/email/{email}").hasAnyRole("ADMIN","DRIVER")
@@ -123,6 +123,7 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.GET,"/api/reviews/driver/{driver_id}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/reviews/office/{office_id}").hasAnyRole("ADMIN")
 	                
+	                .requestMatchers(HttpMethod.GET,"/api/routes").hasAnyRole("USER","ADMIN","DRIVER")
 	                .requestMatchers(HttpMethod.POST,"/api/routes/add").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/routes/{routeId}").hasAnyRole("USER","ADMIN","DRIVER")
 	                .requestMatchers(HttpMethod.GET,"/api/routes/from_city/{fromCity}").hasAnyRole("USER","ADMIN","DRIVER")

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.exception.CustomException;
+import com.model.Agency;
 import com.model.Route;
 import com.service.RouteService;
 
@@ -18,6 +19,9 @@ public class RouteController {
 
     @Autowired
     private RouteService routeService;
+    
+  
+    
 
     // Create a new route
     @PostMapping("/add")
@@ -28,6 +32,15 @@ public class RouteController {
         routeService.save(route);  // Save the route
         String message = "Record Created Successfully";
         return ResponseEntity.status(HttpStatus.CREATED).body(message); // Return success message
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<Route>> getAllRoutes() {
+        List<Route> routes = routeService.findAll();
+        if (routes.isEmpty()) {
+            throw new CustomException("NOTFOUND", "No routes available");
+        }
+        return ResponseEntity.ok(routes);
     }
 
     // Get a route by its ID
