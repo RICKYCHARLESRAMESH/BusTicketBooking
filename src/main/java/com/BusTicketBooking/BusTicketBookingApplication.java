@@ -70,6 +70,7 @@ public class BusTicketBookingApplication {
 	                
 	                .requestMatchers(HttpMethod.POST, "/api/agencies/addAgency").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies/{agencyId}").hasAnyRole("ADMIN")
+	                .requestMatchers(HttpMethod.GET,"/api/agencies/name/{agencyName}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.PUT,"/api/agencies/updateAgency/{agencyId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies/offices/{agencyId}").hasAnyRole("ADMIN")
@@ -99,6 +100,7 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.GET,"/api/drivers").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.POST,"/api/drivers").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/drivers/{driverId}").hasAnyRole("ADMIN")
+	                .requestMatchers(HttpMethod.GET,"/api/drivers//name/{driverName}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.PUT,"/api/drivers/{driverId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.DELETE,"/api/drivers/{driverId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/drivers/agency/{agencyId}").hasAnyRole("ADMIN")
@@ -133,7 +135,7 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.DELETE,"/api/routes/{routeId}").hasAnyRole("ADMIN")
 	                
 	                .requestMatchers(HttpMethod.POST,"/api/trips/add").hasAnyRole("ADMIN")
-	                .requestMatchers(HttpMethod.GET,"/api/trips/get").hasAnyRole("ADMIN","USER")
+	                .requestMatchers(HttpMethod.GET,"/api/trips/get").hasAnyRole("ADMIN","USER","DRIVER")
 	                .requestMatchers(HttpMethod.GET,"/api/trips/{trip_id}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.PUT,"/api/trips/update").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/trips/from_city/{from_city}").hasAnyRole("ADMIN","USER","DRIVER")

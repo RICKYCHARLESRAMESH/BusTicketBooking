@@ -7,7 +7,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
- 
+
+import com.converter.LocalDateTimeAttributeConverter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,8 +24,10 @@ public class Trip{
 	private int id;
 	
 	@Column(name = "departure_time", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") // Define the expected format
+//	@Temporal(TemporalType.TIMESTAMP)
+//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") // Define the expected format
+	@Convert(converter = LocalDateTimeAttributeConverter.class)
+	 
 	private LocalDateTime departureTime;
 	
 	@Column(name = "available_seats", nullable = false)
@@ -40,13 +43,17 @@ public class Trip{
 	private Integer droppingAddressId;
  
 	@Column(name = "arrival_time", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//	@Temporal(TemporalType.TIMESTAMP)
+//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	@Convert(converter = LocalDateTimeAttributeConverter.class)
+	 
 	private LocalDateTime arrivalTime;
  
 	@Column(name = "trip_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//	@Convert(converter = LocalDateTimeAttributeConverter.class)
+	 
 	private LocalDateTime tripDate;
  
 	

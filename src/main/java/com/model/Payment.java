@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.converter.LocalDateTimeAttributeConverter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,6 +35,8 @@ public class Payment {
 	@Column(name = "payment_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	@Convert(converter = LocalDateTimeAttributeConverter.class)
+	 
 	private LocalDateTime paymentDate;
  
 	@Enumerated(EnumType.STRING)

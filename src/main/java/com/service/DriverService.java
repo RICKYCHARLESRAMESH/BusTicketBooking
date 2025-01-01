@@ -72,4 +72,10 @@ public class DriverService {
         }
         return "Driver not found";
     }
+    
+    
+    public Optional<Driver> getDriverByName(String driverName) {
+        // Example logic for fetching driver by name from the database
+        return driverDAO.findByName(driverName); // Adjust based on your repository query methods
+    }
 }

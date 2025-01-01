@@ -45,6 +45,16 @@ public class DriverController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @GetMapping("/name/{driverName}")
+    public ResponseEntity<Optional<Driver>> getDriverByName(@PathVariable String driverName) {
+        Optional<Driver> driver = driverService.getDriverByName(driverName); // Assuming this method exists in your service layer
+        if (driver.isPresent()) {
+            return ResponseEntity.ok(driver);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
  
     // Update driver details
     @PutMapping("/{driverId}")

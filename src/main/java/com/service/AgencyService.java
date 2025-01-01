@@ -68,4 +68,8 @@ public class AgencyService {
     public List<Agency> getAllAgencies() {
         return agencyDAO.findAll(); // Assuming you're using JPA, this returns a list of all agencies
     }
+    
+    public Optional<Agency> getAgencyByName(String agencyName) {
+        return agencyDAO.findByName(agencyName);  // Assuming a JPA repository or similar.
+    }
 }

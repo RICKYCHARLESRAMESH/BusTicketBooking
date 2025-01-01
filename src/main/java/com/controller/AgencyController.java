@@ -57,6 +57,15 @@ public class AgencyController {
         }
         return ResponseEntity.ok(agency.get());
     }
+    
+    @GetMapping("/name/{agencyName}")
+    public ResponseEntity<Agency> getAgencyByName(@PathVariable String agencyName) {
+        Optional<Agency> agency = agencyService.getAgencyByName(agencyName);
+        if (agency.isEmpty()) {
+            throw new CustomException("NOTFOUND", "Agency not found with Name: " + agencyName);
+        }
+        return ResponseEntity.ok(agency.get());
+    }
 
     // Update Agency details
     @PutMapping("/updateAgency/{agencyId}")
