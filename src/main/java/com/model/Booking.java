@@ -1,6 +1,7 @@
 package com.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -19,7 +20,8 @@ public class Booking {
 	private Trip trip;
 	
 	@OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
-	@JsonIgnore
+//	@JsonIgnore
+	@JsonBackReference
 
 	private Payment payment;
  
@@ -79,6 +81,16 @@ public class Booking {
 	public String toString() {
 		return "Booking [bookingId=" + bookingId + ", trip=" + trip + ", payment=" + payment + ", seatNumber="
 				+ seatNumber + ", status=" + status + "]";
+	}
+
+	public void setCustomerName(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTotalAmount(double d) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -81,8 +81,8 @@ public class Driver {
 			return agencyOffice;
 		}
 
-		public void setAgencyOffice(AgencyOffice agencyOffice) {
-			this.agencyOffice = agencyOffice;
+		public void setAgencyOffice(AgencyOffice i) {
+			this.agencyOffice = i;
 		}
 
 		public Address getAddress() {
@@ -103,6 +103,9 @@ public class Driver {
 			this.agencyOffice = agencyOffice;
 			this.address = address;
 		}
-	    
+
+		
+
+
 	    
 }

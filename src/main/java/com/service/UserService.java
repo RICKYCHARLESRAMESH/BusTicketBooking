@@ -17,10 +17,6 @@ public class UserService {
 		userDAO.save(user);
 	}
 	
-//	public UserEntity findById(long id)
-//	{
-//		return userDAO.findById(id).get();
-//	}
 	
 	public boolean findById(long id)
 	{

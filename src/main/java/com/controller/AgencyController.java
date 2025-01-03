@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import com.exception.CustomException;
 import com.model.Agency;
 import com.model.AgencyOffice;
-import com.model.Review;
 import com.service.AgencyService;
 
 @RestController
@@ -63,6 +62,15 @@ public class AgencyController {
         Optional<Agency> agency = agencyService.getAgencyByName(agencyName);
         if (agency.isEmpty()) {
             throw new CustomException("NOTFOUND", "Agency not found with Name: " + agencyName);
+        }
+        return ResponseEntity.ok(agency.get());
+    }
+
+    @GetMapping("/contactPerson/{contactPersonName}")
+    public ResponseEntity<Agency> getAgencyByContactPersonName(@PathVariable String contactPersonName) {
+        Optional<Agency> agency = agencyService.getAgencyByContactPersonName(contactPersonName);
+        if (agency.isEmpty()) {
+            throw new CustomException("NOTFOUND", "Agency not found with Contact Person Name: " + contactPersonName);
         }
         return ResponseEntity.ok(agency.get());
     }

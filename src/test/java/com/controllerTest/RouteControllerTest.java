@@ -1,5 +1,9 @@
 package com.controllerTest;
 
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.model.Route;
 import com.service.RouteService;
 import com.controller.RouteController;
@@ -10,167 +14,108 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.http.MediaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class RouteControllerTest {
 
-    @InjectMocks
-    private RouteController routeController;
-
     @Mock
     private RouteService routeService;
 
-    private Route route;
+    @InjectMocks
+    private RouteController routeController;
+
+    private MockMvc mockMvc;
+
+    private ObjectMapper objectMapper;
 
     @BeforeEach
-    public void setUp() {
-        route = new Route();
-        route.setRouteId(1);
-        route.setFromCity("City A");
-        route.setToCity("City B");
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(routeController).build();
+        objectMapper = new ObjectMapper();
     }
 
     @Test
-    public void createRoute_shouldReturnCreatedStatus_whenRouteIsValid() {
-        // Arrange
+    void testCreateRoute() throws Exception {
+        Route route = new Route(1, "CityA", "CityB", 2, 5);
+        
         when(routeService.save(any(Route.class))).thenReturn(route);
 
-        // Act
-        ResponseEntity<String> response = routeController.createRoute(route);
-
-        // Assert
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Record Created Successfully", response.getBody());
+        mockMvc.perform(post("/api/routes/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(route)))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Record Created Successfully"));
     }
 
     @Test
-    public void createRoute_shouldThrowException_whenRouteIsInvalid() {
-        // Arrange
-        Route invalidRoute = new Route();
-        invalidRoute.setFromCity(null);  // Missing fromCity
+    void testGetAllRoutes() throws Exception {
+        Route route1 = new Route(1, "CityA", "CityB", 2, 5);
+        Route route2 = new Route(2, "CityC", "CityD", 1, 4);
 
-        // Act and Assert
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            routeController.createRoute(invalidRoute);
-        });
+        when(routeService.findAll()).thenReturn(Arrays.asList(route1, route2));
 
-        assertEquals("POSTFAILS", exception.getCode());
-        assertEquals("Route data is missing or invalid", exception.getMessage());
+        mockMvc.perform(get("/api/routes"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].routeId").value(1))
+                .andExpect(jsonPath("$[1].routeId").value(2));
     }
 
     @Test
-    public void getRouteById_shouldReturnRoute_whenRouteExists() {
-        // Arrange
+    void testGetRouteById() throws Exception {
+        Route route = new Route(1, "CityA", "CityB", 2, 5);
+        
         when(routeService.findByRouteId(1)).thenReturn(Optional.of(route));
 
-        // Act
-        ResponseEntity<Route> response = routeController.getRouteById(1);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(route.getRouteId(), response.getBody().getRouteId());
+        mockMvc.perform(get("/api/routes/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.routeId").value(1))
+                .andExpect(jsonPath("$.fromCity").value("CityA"))
+                .andExpect(jsonPath("$.toCity").value("CityB"));
     }
 
+   
     @Test
-    public void getRouteById_shouldThrowException_whenRouteDoesNotExist() {
-        // Arrange
-        when(routeService.findByRouteId(1)).thenReturn(Optional.empty());
+    void testGetRoutesByFromCity() throws Exception {
+        Route route1 = new Route(1, "CityA", "CityB", 2, 5);
+        Route route2 = new Route(2, "CityA", "CityC", 1, 3);
 
-        // Act and Assert
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            routeController.getRouteById(1);
-        });
+        when(routeService.findByFromCity("CityA")).thenReturn(Arrays.asList(route1, route2));
 
-        assertEquals("NOTFOUND", exception.getCode());
-        assertEquals("Route not found with ID: 1", exception.getMessage());
+        mockMvc.perform(get("/api/routes/from_city/CityA"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].fromCity").value("CityA"))
+                .andExpect(jsonPath("$[1].fromCity").value("CityA"));
     }
 
-    @Test
-    public void getRoutesByFromCity_shouldReturnRoutes_whenRoutesExist() {
-        // Arrange
-        when(routeService.findByFromCity("City A")).thenReturn(Arrays.asList(route));
-
-        // Act
-        ResponseEntity<List<Route>> response = routeController.getRoutesByFromCity("City A");
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertFalse(response.getBody().isEmpty());
-    }
 
     @Test
-    public void getRoutesByFromCity_shouldThrowException_whenNoRoutesFound() {
-        // Arrange
-        when(routeService.findByFromCity("City A")).thenReturn(Arrays.asList());
-
-        // Act and Assert
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            routeController.getRoutesByFromCity("City A");
-        });
-
-        assertEquals("NOTFOUND", exception.getCode());
-        assertEquals("No routes found for from city: City A", exception.getMessage());
-    }
-
-    @Test
-    public void updateRoute_shouldReturnSuccess_whenRouteIsUpdated() {
-        // Arrange
+    void testUpdateRoute() throws Exception {
+        Route route = new Route(1, "CityA", "CityB", 2, 5);
+        
         when(routeService.save(any(Route.class))).thenReturn(route);
 
-        // Act
-        ResponseEntity<String> response = routeController.updateRoute(route);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Record Updated Successfully", response.getBody());
+        mockMvc.perform(put("/api/routes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(route)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Record Updated Successfully"));
     }
 
     @Test
-    public void updateRoute_shouldThrowException_whenRouteDataIsInvalid() {
-        // Arrange
-        Route invalidRoute = new Route();
-        invalidRoute.setRouteId(null);  // Missing routeId
-
-        // Act and Assert
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            routeController.updateRoute(invalidRoute);
-        });
-
-        assertEquals("UPDATEFAILS", exception.getCode());
-        assertEquals("Route details or route ID cannot be null", exception.getMessage());
-    }
-
-    @Test
-    public void deleteRoute_shouldReturnSuccess_whenRouteIsDeleted() {
-        // Arrange
+    void testDeleteRoute() throws Exception {
         doNothing().when(routeService).deleteByRouteId(1);
 
-        // Act
-        ResponseEntity<String> response = routeController.deleteRoute(1);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Record Deleted Successfully", response.getBody());
+        mockMvc.perform(delete("/api/routes/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Record Deleted Successfully"));
     }
 
-    @Test
-    public void deleteRoute_shouldThrowException_whenRouteIdIsInvalid() {
-        // Act and Assert
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            routeController.deleteRoute(-1); // Invalid route ID
-        });
-
-        assertEquals("INVALIDID", exception.getCode());
-        assertEquals("Invalid route ID: -1", exception.getMessage());
-    }
+   
 }

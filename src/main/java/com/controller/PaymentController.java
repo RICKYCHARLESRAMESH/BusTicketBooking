@@ -7,11 +7,20 @@ import org.springframework.web.bind.annotation.*;
 
 import com.exception.CustomException;
 import com.dao.BookingDAO;
+import com.dao.CustomerDAO;
+import com.dao.PaymentDAO;
 import com.model.*;
 import com.service.PaymentService;
 
 import java.util.List;
 import java.util.Optional;
+
+
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+ 
 
 @RestController
 @RequestMapping("/api/payment")
@@ -22,24 +31,36 @@ public class PaymentController {
 
     @Autowired
     private BookingDAO bookingDAO;
+    
+    @Autowired
+    private CustomerDAO customerDAO;
+    
+    @Autowired
+    private PaymentDAO paymentDAO;
 
-    // Create a new payment
-    @PostMapping("/add")
-    public ResponseEntity<String> createPayment(@RequestBody Payment payment) throws Exception {
-    	try
-    	{
-        if (payment == null || payment.getBooking() == null) {
-//            throw new CustomException("POSTFAILS", "Booking details are missing in the payment request");
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createPayment(@RequestBody Payment payment) {
+        // Fetch the Booking from the database
+        Booking booking = bookingDAO.getById(payment.getBooking().getBookingId());
+        if (booking == null) {
+            return new ResponseEntity<>("Booking not found", HttpStatus.BAD_REQUEST);
         }
-        System.out.println(payment);
-        paymentService.createPayment(payment);  // Call service to save the payment
-        return ResponseEntity.status(HttpStatus.CREATED).body("Payment record created successfully");
-    	}
-    	catch(Exception e)
-    	{
-    		System.out.println(e);
-    	}
-		return null;
+        
+ 
+        // Fetch the Customer from the database
+        Customer customer = customerDAO.getById(payment.getCustomer().getId());
+        if (customer == null) {
+            return new ResponseEntity<>("Customer not found", HttpStatus.BAD_REQUEST);
+        }
+ 
+        // Set the fetched entities to the payment object
+        payment.setBooking(booking);
+        payment.setCustomer(customer);
+ 
+        // Persist the payment
+        paymentDAO.save(payment);
+ 
+        return new ResponseEntity<>("Payment created successfully", HttpStatus.CREATED);
     }
 
     // Get a payment by its ID
@@ -76,6 +97,21 @@ public class PaymentController {
         if (payments.isEmpty()) {
             throw new CustomException("NOTFOUND", "No payments found for customer ID: " + customer_id);
         }
+        return ResponseEntity.ok(payments);
+    }
+
+    // Get payments by payment status
+    @GetMapping("/status/{paymentStatus}")
+    public ResponseEntity<List<Payment>> getPaymentsByStatus(@PathVariable Payment.PaymentStatus paymentStatus) {
+        if (paymentStatus == null) {
+            throw new CustomException("INVALIDSTATUS", "Payment status cannot be null");
+        }
+
+        List<Payment> payments = paymentService.getPaymentsByStatus(paymentStatus);
+        if (payments.isEmpty()) {
+            throw new CustomException("NOTFOUND", "No payments found with status: " + paymentStatus);
+        }
+
         return ResponseEntity.ok(payments);
     }
 

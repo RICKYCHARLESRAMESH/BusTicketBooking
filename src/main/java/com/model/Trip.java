@@ -5,13 +5,9 @@ import jakarta.persistence.*;
  
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
-import com.converter.LocalDateTimeAttributeConverter;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+
+
  
  
 @Entity
@@ -26,7 +22,6 @@ public class Trip{
 	@Column(name = "departure_time", nullable = false)
 //	@Temporal(TemporalType.TIMESTAMP)
 //	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") // Define the expected format
-	@Convert(converter = LocalDateTimeAttributeConverter.class)
 	 
 	private LocalDateTime departureTime;
 	
@@ -44,15 +39,13 @@ public class Trip{
  
 	@Column(name = "arrival_time", nullable = false)
 //	@Temporal(TemporalType.TIMESTAMP)
-//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	@Convert(converter = LocalDateTimeAttributeConverter.class)
+
 	 
 	private LocalDateTime arrivalTime;
  
 	@Column(name = "trip_date", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-//	@Convert(converter = LocalDateTimeAttributeConverter.class)
+//	@Temporal(TemporalType.TIMESTAMP)
+
 	 
 	private LocalDateTime tripDate;
  
@@ -216,14 +209,6 @@ public LocalDateTime parseTripDate(String tripDate) {
 		this.tripDate = tripDate;
 	}
  
-	
-	
- 
-	public void setTripId(Integer tripId) {
-		// TODO Auto-generated method stub
-		
-	}
-//	
 
  
    }

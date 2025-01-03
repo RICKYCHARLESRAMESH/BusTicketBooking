@@ -11,5 +11,7 @@ import com.model.Agency;
 public interface AgencyDAO extends JpaRepository<Agency, Integer> {
 	
 	 Optional<Agency> findByName(String name);
+	 
+	 Optional<Agency> findByContactPersonName(String contactPersonName);
 	
 }

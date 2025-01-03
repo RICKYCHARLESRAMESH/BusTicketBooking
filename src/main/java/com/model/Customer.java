@@ -3,8 +3,7 @@ package com.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import jakarta.persistence.*;
 @Entity
@@ -25,14 +24,14 @@ public class Customer {
     private String phone;
 
     @ManyToOne
-    @JsonBackReference
+//    @JsonBackReference
     @JoinColumn(name = "address_id")
-    @JsonIgnore
+//    @JsonIgnore
     private Address address;
    
-    @JsonManagedReference
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-	@JsonIgnore
+//	@JsonIgnore
+    @JsonBackReference
     private Payment payment;
 
     public Customer() {
@@ -95,6 +94,16 @@ public class Customer {
 
 	public void setPayment(Payment payment) {
 		this.payment = payment;
+	}
+
+	public void setCustomerId(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Short getCustomerId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
     

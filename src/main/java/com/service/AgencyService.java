@@ -72,4 +72,8 @@ public class AgencyService {
     public Optional<Agency> getAgencyByName(String agencyName) {
         return agencyDAO.findByName(agencyName);  // Assuming a JPA repository or similar.
     }
+    
+    public Optional<Agency> getAgencyByContactPersonName(String contactPersonName) {
+        return agencyDAO.findByContactPersonName(contactPersonName);
+    }
 }

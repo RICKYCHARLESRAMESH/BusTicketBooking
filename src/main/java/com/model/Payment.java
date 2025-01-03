@@ -5,9 +5,8 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.converter.LocalDateTimeAttributeConverter;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -21,21 +20,22 @@ public class Payment {
 	@OneToOne(cascade =CascadeType.ALL)
 	@JoinColumn(name = "booking_id")
 	@JsonIgnore
+	@JsonManagedReference
 	private Booking booking;
 	
  
 	@OneToOne(cascade =CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	@JsonIgnore
+	@JsonManagedReference
 	private Customer customer;
  
 	@Column(nullable = false)
 	private BigDecimal amount;
  
 	@Column(name = "payment_date")
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	@Convert(converter = LocalDateTimeAttributeConverter.class)
+//	@Temporal(TemporalType.TIMESTAMP)
+//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	 
 	private LocalDateTime paymentDate;
  
@@ -119,6 +119,11 @@ public class Payment {
 	public String toString() {
 		return "Payment [paymentId=" + paymentId + ", booking=" + booking + ", customer=" + customer + ", amount="
 				+ amount + ", paymentDate=" + paymentDate + ", paymentStatus=" + paymentStatus + "]";
+	}
+
+	public void setAmount(double d) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

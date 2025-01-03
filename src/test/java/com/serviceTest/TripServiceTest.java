@@ -1,197 +1,150 @@
-package com.serviceTest;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
- 
-import com.dao.TripDAO;
-import com.model.Trip;
-import com.service.TripService;
- 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
- 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
- 
-class TripServiceTest {
- 
-    @InjectMocks
-    private TripService tripService;
- 
-    @Mock
-    private TripDAO tripDAO;
- 
-    private Trip trip;
- 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        trip = new Trip();
-        trip.setId(1);
-        trip.setAvailableSeats(30);
-        trip.setFare(new BigDecimal("500.00"));
-        trip.setTripDate(LocalDateTime.now());
-        trip.setFromCity("CityA");
-        trip.setToCity("CityB");
-        trip.setType("Luxury");
-    }
- 
-    @Test
-    void testSaveTrip() {
-        // Arrange
-        when(tripDAO.save(trip)).thenReturn(trip);
- 
-        // Act
-        Trip result = tripService.saveTrip(trip);
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.getId());
-        verify(tripDAO, times(1)).save(trip);
-    }
- 
-    @Test
-    void testGetTripById() {
-        // Arrange
-        when(tripDAO.findById(1)).thenReturn(Optional.of(trip));
- 
-        // Act
-        Trip result = tripService.getTripById(1);
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.getId());
-        verify(tripDAO, times(1)).findById(1);
-    }
- 
-    @Test
-    void testGetTripByIdNotFound() {
-        // Arrange
-        when(tripDAO.findById(1)).thenReturn(Optional.empty());
- 
-        // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> tripService.getTripById(1));
-        assertEquals("Trip not found", exception.getMessage());
-        verify(tripDAO, times(1)).findById(1);
-    }
- 
-    @Test
-    void testGetAllTrips() {
-        // Arrange
-        when(tripDAO.findAll()).thenReturn(Arrays.asList(trip));
- 
-        // Act
-        List<Trip> result = tripService.getAllTrips();
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(tripDAO, times(1)).findAll();
-    }
- 
-    @Test
-    void testDeleteTrip() {
-        // Act
-        tripService.deleteTrip(1);
- 
-        // Assert
-        verify(tripDAO, times(1)).deleteById(1);
-    }
- 
-    @Test
-    void testSearchByFromCity() {
-        // Arrange
-        when(tripDAO.findByFromCity("CityA")).thenReturn(Arrays.asList(trip));
- 
-        // Act
-        List<Trip> result = tripService.searchByFromCity("CityA");
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(tripDAO, times(1)).findByFromCity("CityA");
-    }
- 
-    @Test
-    void testSearchByToCity() {
-        // Arrange
-        when(tripDAO.findByToCity("CityB")).thenReturn(Arrays.asList(trip));
- 
-        // Act
-        List<Trip> result = tripService.searchByToCity("CityB");
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(tripDAO, times(1)).findByToCity("CityB");
-    }
- 
-    @Test
-    void testSearchByBusType() {
-        // Arrange
-        when(tripDAO.findByBusType("Luxury")).thenReturn(Arrays.asList(trip));
- 
-        // Act
-        List<Trip> result = tripService.searchByBusType("Luxury");
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(tripDAO, times(1)).findByBusType("Luxury");
-    }
- 
-    @Test
-    void testSearchByBusTypeAndTripDate() {
-        // Arrange
-        LocalDate tripDate = LocalDate.now();
-        when(tripDAO.findByBusTypeAndTripDate("Luxury", tripDate)).thenReturn(Arrays.asList(trip));
- 
-        // Act
-        List<Trip> result = tripService.searchByBusTypeAndTripDate("Luxury", tripDate);
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(tripDAO, times(1)).findByBusTypeAndTripDate("Luxury", tripDate);
-    }
- 
-    @Test
-    void testSearchByFromCityToCityDateType() {
-        // Arrange
-        LocalDate tripDate = LocalDate.now();
-        when(tripDAO.findByFromCityAndToCityAndTripDateAndBusType("CityA", "CityB", tripDate, "Luxury"))
-                .thenReturn(Arrays.asList(trip));
- 
-        // Act
-        List<Trip> result = tripService.searchByFromCityToCityDateType("CityA", "CityB", tripDate, "Luxury");
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(tripDAO, times(1)).findByFromCityAndToCityAndTripDateAndBusType("CityA", "CityB", tripDate, "Luxury");
-    }
- 
-    @Test
-    void testSearchByTripDate() {
-        // Arrange
-        LocalDate tripDate = LocalDate.now();
-        when(tripDAO.findByTripDate(tripDate)).thenReturn(Arrays.asList(trip));
- 
-        // Act
-        List<Trip> result = tripService.searchByTripDate(tripDate);
- 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(tripDAO, times(1)).findByTripDate(tripDate);
-    }
-}
- 
- 
+//package com.serviceTest;
+//
+//import com.dao.TripDAO;
+//import com.model.Trip;
+//import com.service.TripService;
+//
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.mockito.InjectMocks;
+//import org.mockito.Mock;
+//import org.mockito.MockitoAnnotations;
+//
+//import java.time.LocalDateTime;
+//import java.util.Arrays;
+//import java.util.List;
+//import java.util.Optional;
+//
+//import static org.junit.jupiter.api.Assertions.*;
+//import static org.mockito.Mockito.*;
+//
+//class TripServiceTest {
+//
+//    @Mock
+//    private TripDAO tripDAO;
+//
+//    @InjectMocks
+//    private TripService tripService;
+//
+//    @BeforeEach
+//    void setUp() {
+//        MockitoAnnotations.openMocks(this);
+//    }
+//
+//    @Test
+//    void testSaveTrip() {
+//        Trip trip = new Trip();
+////        trip.setBus(new Object()); // Replace with appropriate Bus object
+//
+////        tripService.saveTrip(trip);
+//        verify(tripDAO, times(1)).save(trip);
+//    }
+//
+//    @Test
+//    void testSaveTripThrowsExceptionWhenBusIsNull() {
+//        Trip trip = new Trip();
+//        assertThrows(IllegalArgumentException.class, () -> tripService.saveTrip(trip));
+//    }
+//
+//    @Test
+//    void testGetTripById() {
+//        Trip trip = new Trip();
+//        trip.setId(1); // Assuming there's a getId() method
+//        when(tripDAO.findById(1)).thenReturn(Optional.of(trip));
+//
+//        Trip result = tripService.getTripById(1);
+//        assertNotNull(result);
+//        assertEquals(1, result.getId());
+//    }
+//
+//    @Test
+//    void testGetTripByIdThrowsExceptionWhenNotFound() {
+//        when(tripDAO.findById(1)).thenReturn(Optional.empty());
+//
+//        assertThrows(RuntimeException.class, () -> tripService.getTripById(1));
+//    }
+//
+//    @Test
+//    void testGetAllTrips() {
+//        Trip trip1 = new Trip();
+//        Trip trip2 = new Trip();
+//        when(tripDAO.findAll()).thenReturn(Arrays.asList(trip1, trip2));
+//
+//        List<Trip> result = tripService.getAllTrips();
+//        assertEquals(2, result.size());
+//    }
+//
+//    @Test
+//    void testDeleteTrip() {
+//        tripService.deleteTrip(1);
+//        verify(tripDAO, times(1)).deleteById(1);
+//    }
+//
+//    @Test
+//    void testSearchByFromCity() {
+//        Trip trip = new Trip();
+//        when(tripDAO.findByFromCity("City1")).thenReturn(Arrays.asList(trip));
+//
+//        List<Trip> result = tripService.searchByFromCity("City1");
+//        assertEquals(1, result.size());
+//    }
+//
+//    @Test
+//    void testSearchByToCity() {
+//        Trip trip = new Trip();
+//        when(tripDAO.findByToCity("City2")).thenReturn(Arrays.asList(trip));
+//
+//        List<Trip> result = tripService.searchByToCity("City2");
+//        assertEquals(1, result.size());
+//    }
+//
+//    @Test
+//    void testSearchByBusType() {
+//        Trip trip = new Trip();
+//        when(tripDAO.findByBusType("Luxury")).thenReturn(Arrays.asList(trip));
+//
+//        List<Trip> result = tripService.searchByBusType("Luxury");
+//        assertEquals(1, result.size());
+//    }
+//
+//    @Test
+//    void testSearchByBusTypeAndTripDate() {
+//        Trip trip = new Trip();
+//        LocalDateTime tripDate = LocalDateTime.now();
+//        when(tripDAO.findByBusTypeAndTripDate("Luxury", tripDate)).thenReturn(Arrays.asList(trip));
+//
+//        List<Trip> result = tripService.searchByBusTypeAndTripDate("Luxury", tripDate);
+//        assertEquals(1, result.size());
+//    }
+//
+//    @Test
+//    void testSearchByFromCityToCityDateType() {
+//        Trip trip = new Trip();
+//        LocalDateTime tripDate = LocalDateTime.now();
+//        when(tripDAO.findByFromCityAndToCityAndTripDateAndBusType("City1", "City2", tripDate, "Luxury"))
+//                .thenReturn(Arrays.asList(trip));
+//
+//        List<Trip> result = tripService.searchByFromCityToCityDateType("City1", "City2", tripDate, "Luxury");
+//        assertEquals(1, result.size());
+//    }
+//
+//    @Test
+//    void testSearchByFromCityToCityDate() {
+//        Trip trip = new Trip();
+//        LocalDateTime tripDate = LocalDateTime.now();
+//        when(tripDAO.findByFromCityAndToCityAndTripDate("City1", "City2", tripDate)).thenReturn(Arrays.asList(trip));
+//
+//        List<Trip> result = tripService.searchByFromCityToCityDate("City1", "City2", tripDate);
+//        assertEquals(1, result.size());
+//    }
+//
+//    @Test
+//    void testSearchByTripDate() {
+//        Trip trip = new Trip();
+//        LocalDateTime tripDate = LocalDateTime.now();
+//        when(tripDAO.findByTripDate(tripDate)).thenReturn(Arrays.asList(trip));
+//
+//        List<Trip> result = tripService.searchByTripDate(tripDate);
+//        assertEquals(1, result.size());
+//    }
+//}

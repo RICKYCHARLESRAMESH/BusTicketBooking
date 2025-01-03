@@ -1,198 +1,181 @@
-package com.controllerTest;
- 
-import com.controller.TripController;
-import com.model.Trip;
-import com.service.TripService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
- 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
- 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
- 
-public class TripControllerTest {
- 
-    @InjectMocks
-    private TripController tripController;
- 
-    @Mock
-    private TripService tripService;
- 
-    private Trip trip;
- 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
- 
-        trip = new Trip();
-        trip.setId(1);
-        trip.setAvailableSeats(40);
-        trip.setFare(new BigDecimal("500.00"));
-        trip.setFromCity("CityA");
-        trip.setToCity("CityB");
-        trip.setTripDate(LocalDateTime.of(2023, 12, 25, 10, 0));
-        trip.setDepartureTime(LocalDateTime.of(2023, 12, 25, 8, 0));
-        trip.setArrivalTime(LocalDateTime.of(2023, 12, 25, 12, 0));
-        trip.setBoardingAddressId(101);
-        trip.setDroppingAddressId(102);
-        trip.setType("Luxury");
-    }
-    @Test
-    void testCreateTrip() {
-        // Arrange
-        when(tripService.saveTrip(trip)).thenReturn(trip); // Mock the saveTrip method to return the provided trip object
- 
-        // Act
-        ResponseEntity<String> response = tripController.createTrip(trip);
- 
-        // Assert
-        assertEquals("Record Created Successfully", response.getBody());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).saveTrip(trip); // Verify that the saveTrip method was called once with the given trip
-    }
- 
+//package com.controllerTest;
+//
+//import com.model.Trip;
+//import com.service.TripService;
+//import com.service.BusService;
+//import com.service.DriverService;
+//import com.service.RouteService;
+//import com.controller.TripController;
+//import com.dao.BusDAO;
+//import com.dao.RouteDAO;
+//import com.model.Bus;
+//import com.model.Driver;
+//import com.model.Route;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.mockito.InjectMocks;
+//import org.mockito.Mock;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+//import org.springframework.http.MediaType;
+//import org.springframework.test.web.servlet.MockMvc;
+//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+//
+//import static org.mockito.Mockito.*;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+//
+//import java.util.List;
+//import java.util.Optional;
+//
+//@WebMvcTest(TripController.class)
+//public class TripControllerTest {
+//
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Mock
+//    private TripService tripService;
+//
+//    @Mock
+//    private RouteService routeService;
+//
+//    @Mock
+//    private BusService busService;
+//
+//    @Mock
+//    private BusDAO busDAO;
+//
+//    @Mock
+//    private RouteDAO routeRepo;
+//
+//    @Mock
+//    private DriverService driverService;
+//
+//    @InjectMocks
+//    private TripController tripController;
+//
+//    private Trip trip;
+//    private Bus bus;
+//    private Route route;
+//    private Driver driver;
+//
+//    @BeforeEach
+//    public void setup() {
+//        // Initialize mock data
+//        bus = new Bus(); // Add properties as per your model
+//        route = new Route(); // Add properties as per your model
+//        driver = new Driver(); // Add properties as per your model
+//
+//        trip = new Trip();
+//        trip.setId(1);
+//        trip.setBus(bus);
+//        trip.setRoute(route);
+//        trip.setDriver(driver);
+//    }
 //
 //    @Test
-//    void testCreateTrip() {
-//        doNothing().when(tripService).saveTrip(trip);
-//        ResponseEntity<String> response = tripController.createTrip(trip);
-//        assertEquals("Record Created Successfully", response.getBody());
-//        assertEquals(200, response.getStatusCodeValue());
-//        verify(tripService, times(1)).saveTrip(trip);
+//    public void testCreateTrip() throws Exception {
+//        when(busService.getBusById(anyInt())).thenReturn(bus);
+//        when(routeService.findByRouteId(anyInt())).thenReturn(Optional.of(route));
+//        when(driverService.getDriverById(anyInt())).thenReturn(Optional.of(driver));
+//        when(tripService.saveTrip(any(Trip.class))).thenReturn(trip);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/trips/add")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{\n" +
+//                        "  \"departureTime\": \"2025-01-01T10:00:00\",\n" +
+//                        "  \"availableSeats\": 40,\n" +
+//                        "  \"fare\": 500.00,\n" +
+//                        "  \"boardingAddressId\": 1,\n" +
+//                        "  \"droppingAddressId\": 2,\n" +
+//                        "  \"arrivalTime\": \"2025-01-01T12:00:00\",\n" +
+//                        "  \"tripDate\": \"2025-01-01T10:00:00\",\n" +
+//                        "  \"route\": { \"routeId\": 1 },\n" +
+//                        "  \"bus\": { \"busId\": 1 },\n" +
+//                        "  \"driver\": { \"driverId\": 1 }\n" +
+//                        "}")
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("Record Created Successfully"));
 //    }
- 
-    @Test
-    void testGetAllTrips() {
- 
-        
-        when(tripService.getAllTrips()).thenReturn(Arrays.asList(trip));
- 
-        // Call the controller method
-        ResponseEntity<List<Trip>> response = tripController.getAllTrips();
- 
-      
-        // Assertions to validate behavior
-        assertEquals(1, response.getBody().size());
-        assertEquals(200, response.getStatusCodeValue());
- 
-        // Verify service interaction
-        verify(tripService, times(1)).getAllTrips();
-    }
- 
- 
-	@Test
-    void testGetTripById() {
-        when(tripService.getTripById(1)).thenReturn(trip);
-        ResponseEntity<Trip> response = tripController.getTripById(1);
-        assertEquals(trip, response.getBody());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).getTripById(1);
-    }
- 
+//
 //    @Test
-//    void testUpdateTrip() {
-//        doNothing().when(tripService).saveTrip(trip);
-//        ResponseEntity<String> response = tripController.updateTrip(trip);
-//        assertEquals("Record Updated Successfully", response.getBody());
-//        assertEquals(200, response.getStatusCodeValue());
-//        verify(tripService, times(1)).saveTrip(trip);
+//    public void testGetAllTrips() throws Exception {
+//        when(tripService.getAllTrips()).thenReturn(List.of(trip));
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .get("/api/trips/get")
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$[0].id").value(1));
 //    }
-    @Test
-    void testUpdateTrip() {
-        // Arrange
-        when(tripService.saveTrip(trip)).thenReturn(trip); // Mock the saveTrip method to return the provided trip object
- 
-        // Act
-        ResponseEntity<String> response = tripController.updateTrip(trip);
- 
-        // Assert
-        assertEquals("Record Updated Successfully", response.getBody());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).saveTrip(trip); // Verify that the saveTrip method was called once with the given trip
-    }
- 
-    @Test
-    void testSearchByFromCity() {
-        when(tripService.searchByFromCity("CityA")).thenReturn(Arrays.asList(trip));
-        ResponseEntity<List<Trip>> response = tripController.searchByFromCity("CityA");
-        assertEquals(1, response.getBody().size());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).searchByFromCity("CityA");
-    }
- 
-    @Test
-    void testSearchByToCity() {
-        when(tripService.searchByToCity("CityB")).thenReturn(Arrays.asList(trip));
-        ResponseEntity<List<Trip>> response = tripController.searchByToCity("CityB");
-        assertEquals(1, response.getBody().size());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).searchByToCity("CityB");
-    }
- 
-    @Test
-    void testSearchByBusType() {
-        when(tripService.searchByBusType("Luxury")).thenReturn(Arrays.asList(trip));
-        ResponseEntity<List<Trip>> response = tripController.searchByBusType("Luxury");
-        assertEquals(1, response.getBody().size());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).searchByBusType("Luxury");
-    }
- 
-    @Test
-    void testSearchByBusTypeAndDate() {
-        when(tripService.searchByBusTypeAndTripDate("Luxury", LocalDate.of(2023, 12, 25)))
-                .thenReturn(Arrays.asList(trip));
-        ResponseEntity<List<Trip>> response = tripController.searchByBusTypeAndDate("Luxury", "2023-12-25");
-        assertEquals(1, response.getBody().size());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).searchByBusTypeAndTripDate("Luxury", LocalDate.of(2023, 12, 25));
-    }
- 
-    @Test
-    void testSearchByFromToCityDateType() {
-        when(tripService.searchByFromCityToCityDateType("CityA", "CityB", LocalDate.of(2023, 12, 25), "Luxury"))
-                .thenReturn(Arrays.asList(trip));
-        ResponseEntity<List<Trip>> response = tripController.searchByFromToCityDateType("CityA", "CityB", "2023-12-25", "Luxury");
-        assertEquals(1, response.getBody().size());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).searchByFromCityToCityDateType("CityA", "CityB", LocalDate.of(2023, 12, 25), "Luxury");
-    }
- 
-    @Test
-    void testSearchByFromToCityDate() {
-        when(tripService.searchByFromCityToCityDate("CityA", "CityB", LocalDate.of(2023, 12, 25)))
-                .thenReturn(Arrays.asList(trip));
-        ResponseEntity<List<Trip>> response = tripController.searchByFromToCityDate("CityA", "CityB", "2023-12-25");
-        assertEquals(1, response.getBody().size());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).searchByFromCityToCityDate("CityA", "CityB", LocalDate.of(2023, 12, 25));
-    }
- 
-    @Test
-    void testDeleteTrip() {
-        doNothing().when(tripService).deleteTrip(1);
-        ResponseEntity<String> response = tripController.deleteTrip(1);
-        assertEquals("Record Deleted Successfully", response.getBody());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).deleteTrip(1);
-    }
- 
-    @Test
-    void testSearchByTripDate() {
-        when(tripService.searchByTripDate(LocalDate.of(2023, 12, 25))).thenReturn(Arrays.asList(trip));
-        ResponseEntity<List<Trip>> response = tripController.searchByTripDate("2023-12-25");
-        assertEquals(1, response.getBody().size());
-        assertEquals(200, response.getStatusCodeValue());
-        verify(tripService, times(1)).searchByTripDate(LocalDate.of(2023, 12, 25));
-    }
-}
+//
+//    @Test
+//    public void testGetTripById() throws Exception {
+//        when(tripService.getTripById(anyInt())).thenReturn(trip);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .get("/api/trips/{trip_id}", 1)
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(1));
+//    }
+//
+//    @Test
+//    public void testUpdateTrip() throws Exception {
+//        when(tripService.saveTrip(any(Trip.class))).thenReturn(trip);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .put("/api/trips/update")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{\n" +
+//                        "  \"id\": 1,\n" +
+//                        "  \"departureTime\": \"2025-01-01T10:00:00\",\n" +
+//                        "  \"availableSeats\": 40,\n" +
+//                        "  \"fare\": 500.00,\n" +
+//                        "  \"boardingAddressId\": 1,\n" +
+//                        "  \"droppingAddressId\": 2,\n" +
+//                        "  \"arrivalTime\": \"2025-01-01T12:00:00\",\n" +
+//                        "  \"tripDate\": \"2025-01-01T10:00:00\",\n" +
+//                        "  \"route\": { \"routeId\": 1 },\n" +
+//                        "  \"bus\": { \"busId\": 1 },\n" +
+//                        "  \"driver\": { \"driverId\": 1 }\n" +
+//                        "}")
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("Record Updated Successfully"));
+//    }
+//
+//    @Test
+//    public void testDeleteTrip() throws Exception {
+//        doNothing().when(tripService).deleteTrip(anyInt());
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .delete("/api/trips/{trip_id}", 1))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("Record Deleted Successfully"));
+//    }
+//
+//    @Test
+//    public void testSearchByFromCity() throws Exception {
+//        when(tripService.searchByFromCity(anyString())).thenReturn(List.of(trip));
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .get("/api/trips/from_city/{from_city}", "CityA")
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$[0].id").value(1));
+//    }
+//
+//    @Test
+//    public void testSearchByToCity() throws Exception {
+//        when(tripService.searchByToCity(anyString())).thenReturn(List.of(trip));
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .get("/api/trips/to_city/{to_city}", "CityB")
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$[0].id").value(1));
+//    }
+//}

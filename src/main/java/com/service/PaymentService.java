@@ -54,5 +54,11 @@ public class PaymentService {
         return paymentRepo.findByBooking_BookingId(bookingId);  // Custom query to find payments by booking ID
     }
     
+    public List<Payment> getPaymentsByStatus(Payment.PaymentStatus paymentStatus) {
+        return paymentRepo.findByPaymentStatus(paymentStatus);
+    }
+
+
+    
   
 }

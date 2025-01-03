@@ -177,6 +177,16 @@ public class Review {
 
 	}
 
+	public void setAgency(Agency agency2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setDriver(Driver driver2) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
  

@@ -71,6 +71,7 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.POST, "/api/agencies/addAgency").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies/{agencyId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies/name/{agencyName}").hasAnyRole("ADMIN")
+	                .requestMatchers(HttpMethod.GET,"/api/agencies/contactPerson/{contactPersonName}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.PUT,"/api/agencies/updateAgency/{agencyId}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/agencies/offices/{agencyId}").hasAnyRole("ADMIN")
@@ -111,6 +112,7 @@ public class BusTicketBookingApplication {
 	                .requestMatchers(HttpMethod.POST,"/api/payment/add").hasAnyRole("USER","ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/payment/{payment_id}").hasAnyRole("ADMIN","USER")
 	                .requestMatchers(HttpMethod.GET,"/api/payment/").hasAnyRole("ADMIN")
+	                .requestMatchers(HttpMethod.GET,"/api/payment/status/{paymentStatus}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/payment/customer/{customer_id}").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.GET,"/api/payment/booking/{booking_id}").hasAnyRole("ADMIN")
 	                
