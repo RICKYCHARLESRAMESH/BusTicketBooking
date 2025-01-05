@@ -51,11 +51,4 @@ public class RouteService {
 	        return routeRepo.findByFromCityAndToCity(fromCity, toCity);
 	    }
 	    
-	    // Delete a route by ID
-	    public void deleteByRouteId(Integer routeId) {
-	        routeRepo.deleteById(routeId);
-
-
-}
-	 
-	    }
+}   

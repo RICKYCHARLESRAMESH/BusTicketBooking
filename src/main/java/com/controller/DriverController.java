@@ -29,12 +29,7 @@ public class DriverController {
         return "Record Added Successfully";
     }
  
-    // Search driver details by driver id
-//    @GetMapping("/{driverId}")
-//    public ResponseEntity<Driver> getDriverById(@PathVariable Integer driverId) {
-//        Optional<Driver> driver = driverService.getDriverById(driverId);
-//        return driver.isPresent() ? ResponseEntity.ok(driver.get()) : ResponseEntity.notFound().build();
-//    }
+ 
     
     @GetMapping("/{driverId}")
     public ResponseEntity<Optional<Driver>> getDriverById(@PathVariable Integer driverId) {
@@ -69,28 +64,8 @@ public class DriverController {
         return driverService.deleteDriver(driverId);
     }
  
-    // Search drivers by agency id
-    @GetMapping("/agency/{agencyId}")
-    public List<Driver> getDriversByAgencyId(@PathVariable Integer agencyId) {
-        return driverService.getDriversByAgencyId(agencyId);
-    }
  
-    // Search drivers by office id
-    @GetMapping("/office/{officeId}")
-    public List<Driver> getDriversByOfficeId(@PathVariable Integer officeId) {
-        return driverService.getDriversByOfficeId(officeId);
-    }
+    
  
-    // Search address of the driver by driver id
-    @GetMapping("/address/{driverId}")
-    public ResponseEntity<Driver> getDriverAddressById(@PathVariable Integer driverId) {
-        Driver driver = driverService.getDriverAddressById(driverId);
-        return driver != null ? ResponseEntity.ok(driver) : ResponseEntity.notFound().build();
-    }
- 
-    // Update address details of the driver
-    @PutMapping("/address/{driverId}")
-    public String updateDriverAddress(@PathVariable Integer driverId, @RequestBody Driver updatedDriver) {
-        return driverService.updateDriverAddress(driverId, updatedDriver);
-    }
+    
 }

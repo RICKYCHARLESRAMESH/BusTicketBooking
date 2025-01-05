@@ -21,7 +21,6 @@ public class Bus {
  
 	@ManyToOne
 	@JoinColumn(name = "office_id", nullable = false)
-	//@JsonIgnore
 	
 	
 	

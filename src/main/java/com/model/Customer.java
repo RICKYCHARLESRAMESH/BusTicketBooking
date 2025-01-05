@@ -24,13 +24,10 @@ public class Customer {
     private String phone;
 
     @ManyToOne
-//    @JsonBackReference
     @JoinColumn(name = "address_id")
-//    @JsonIgnore
     private Address address;
    
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-//	@JsonIgnore
     @JsonBackReference
     private Payment payment;
 

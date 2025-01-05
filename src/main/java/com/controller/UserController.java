@@ -53,36 +53,6 @@ public class UserController {
         }
     }
  
-    @PutMapping("/manager/register/{user_id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long user_id) {
-        try {
-            // Fetch the existing user
-            UserEntity existingUser = userService.getUserById(user_id);
- 
-            // Check if the user already has the manager role before adding it
-            boolean hasManagerRole = existingUser.getRoles().stream()
-                                                 .anyMatch(role -> role.getRole_name().equals("ROLE_MANAGER"));
- 
-            if (!hasManagerRole) {
-                // Assign the manager role if not already assigned
-                Role managerRole = new Role("ROLE_MANAGER");
-                existingUser.getRoles().add(managerRole);
-                managerRole.setUser(existingUser);
- 
-                // Save the new role and user
-                roleService.saveRole(managerRole);
-                userService.saveUser(existingUser);
-            }
- 
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new Response("REGISTERSUCCESS", "User updated successfully with selected roles"));
-        } catch (Exception e) {
-            // Log the exception for better troubleshooting
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new Response("REGISTERFAIL", "Error creating user"));
-        }
-    }
     @PostMapping("/driver/register")
     public ResponseEntity<?> registerDriver(@RequestBody UserEntity user) {
         // Encode the password before saving the user
@@ -91,14 +61,14 @@ public class UserController {
         // Create and assign roles
         List<Role> assignedRoles = new ArrayList<>();
         Role driverRole = new Role();
-        driverRole.setRole_name("ROLE_DRIVER"); // Role for Store Manager
+        driverRole.setRole_name("ROLE_DRIVER"); // Role for Driver
         assignedRoles.add(driverRole);
         driverRole.setUser(user);
  
         user.setRoles(assignedRoles);
  
         try {
-            // Save the user with the store manager role
+            // Save the user with the Driver role
             userService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(new Response("REGISTERSUCCESS", "DRIVER created successfully"));
         } catch (Exception e) {

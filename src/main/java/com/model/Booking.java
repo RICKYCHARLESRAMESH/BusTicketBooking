@@ -20,7 +20,6 @@ public class Booking {
 	private Trip trip;
 	
 	@OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
-//	@JsonIgnore
 	@JsonBackReference
 
 	private Payment payment;

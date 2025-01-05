@@ -54,9 +54,4 @@ public class BusController {
         return new ResponseEntity<>("Record Not Found", HttpStatus.NOT_FOUND);
     }
  
-    @GetMapping("/office/{office_id}")
-    public ResponseEntity<List<Bus>> getBusesByOfficeId(@PathVariable("office_id") Integer officeId) {
-        List<Bus> buses = busService.getBusesByOfficeId(officeId);
-        return new ResponseEntity<>(buses, HttpStatus.OK);
-    }
 }

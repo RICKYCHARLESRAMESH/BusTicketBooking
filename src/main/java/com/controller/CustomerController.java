@@ -50,17 +50,7 @@ public class CustomerController {
         return customerService.getCustomersByPhone(phone);
     }
  
-    // Search customers by city
-    @GetMapping("/city/{city}")
-    public List<Customer> getCustomersByCity(@PathVariable String city) {
-        return customerService.getCustomersByCity(city);
-    }
- 
-    // Search customers by country
-    @GetMapping("/country/{country}")
-    public List<Customer> getCustomersByCountry(@PathVariable String country) {
-        return customerService.getCustomersByCountry(country);
-    }
+   
  
     // Update name of customer
     @PutMapping("/update/{customerId}/In")
@@ -88,11 +78,7 @@ public class CustomerController {
         return customerService.updateCustomerDetails(updatedCustomer.getId(), updatedCustomer);
     }
  
-    // Search customers by state
-    @GetMapping("/state/{state}")
-    public List<Customer> getCustomersByState(@PathVariable String state) {
-        return customerService.getCustomersByState(state);
-    }
+    
  
     // Get customer address by customer ID
     @GetMapping("/address/{customerId}")

@@ -38,30 +38,7 @@ public class PaymentController {
     @Autowired
     private PaymentDAO paymentDAO;
 
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createPayment(@RequestBody Payment payment) {
-        // Fetch the Booking from the database
-        Booking booking = bookingDAO.getById(payment.getBooking().getBookingId());
-        if (booking == null) {
-            return new ResponseEntity<>("Booking not found", HttpStatus.BAD_REQUEST);
-        }
-        
- 
-        // Fetch the Customer from the database
-        Customer customer = customerDAO.getById(payment.getCustomer().getId());
-        if (customer == null) {
-            return new ResponseEntity<>("Customer not found", HttpStatus.BAD_REQUEST);
-        }
- 
-        // Set the fetched entities to the payment object
-        payment.setBooking(booking);
-        payment.setCustomer(customer);
- 
-        // Persist the payment
-        paymentDAO.save(payment);
- 
-        return new ResponseEntity<>("Payment created successfully", HttpStatus.CREATED);
-    }
+   
 
     // Get a payment by its ID
     @GetMapping("/{payment_id}")

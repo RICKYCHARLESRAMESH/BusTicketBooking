@@ -20,8 +20,7 @@ public class Trip{
 	private int id;
 	
 	@Column(name = "departure_time", nullable = false)
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") // Define the expected format
+
 	 
 	private LocalDateTime departureTime;
 	
@@ -38,13 +37,11 @@ public class Trip{
 	private Integer droppingAddressId;
  
 	@Column(name = "arrival_time", nullable = false)
-//	@Temporal(TemporalType.TIMESTAMP)
 
 	 
 	private LocalDateTime arrivalTime;
  
 	@Column(name = "trip_date", nullable = false)
-//	@Temporal(TemporalType.TIMESTAMP)
 
 	 
 	private LocalDateTime tripDate;
@@ -52,25 +49,19 @@ public class Trip{
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "route_id", nullable = false,referencedColumnName="route_id")
-	//@JsonIgnore
 	private Route route;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "bus_id", nullable = false,referencedColumnName="bus_id")
 	//@JsonIgnore
 	private Bus bus;
- 
-//    @ManyToOne(cascade=CascadeType.ALL)
-//	@JoinColumn(name="driver_id",nullable=false,referencedColumnName="driver_id")
-//    //@JsonIgnore
-//	private Driver driver;
+
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "driver_id", nullable = true, referencedColumnName = "driver_id") // nullable = true for optional driver
 	private Driver driver;
  
  
-//anu
 public LocalDateTime parseTripDate(String tripDate) {
     return LocalDateTime.parse(tripDate); // Parses ISO-8601 by default
 }

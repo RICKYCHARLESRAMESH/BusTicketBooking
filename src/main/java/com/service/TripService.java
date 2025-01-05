@@ -51,10 +51,7 @@ public class TripService {
         return tripDAO.findByBusTypeAndTripDate(busType, tripDate);
     }
  
-//    public List<Trip> searchByFromCityToCityDateType(
-//            String fromCity, String toCity, LocalDateTime tripDate, String busType) {
-//        return tripDAO.findByFromCityAndToCityAndTripDateandBusType(fromCity, toCity, tripDate, busType);
-//    }
+
     public List<Trip> searchByFromCityToCityDateType(
             String fromCity, String toCity, LocalDateTime tripDate, String bustype) {
         return tripDAO.findByFromCityAndToCityAndTripDateAndBusType(
@@ -64,7 +61,6 @@ public class TripService {
     public List<Trip> searchByFromCityToCityDate(String fromCity, String toCity, LocalDateTime tripDate) {
         return tripDAO.findByFromCityAndToCityAndTripDate(fromCity, toCity, tripDate);
     }
-//anu
     public List<Trip> searchByTripDate(LocalDateTime tripDate) {
         return tripDAO.findByTripDate(tripDate);
     }

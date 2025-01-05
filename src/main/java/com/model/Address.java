@@ -19,7 +19,6 @@ public class Address {
 	private String city;
 	@Column(nullable = false,length = 255)
 	private String state;
-	//adding address columnn (Bhargavi)
 	@Column(nullable = false, length = 255)
     private String country;
 	@Column(name = "zip_code", nullable = false , length = 10)

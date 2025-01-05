@@ -104,12 +104,5 @@ class RouteServiceTest {
         verify(routeRepo, times(1)).findByFromCityAndToCity("CityA", "CityB");
     }
 
-    @Test
-    void testDeleteByRouteId() {
-        doNothing().when(routeRepo).deleteById(1);
-
-        routeService.deleteByRouteId(1);
-
-        verify(routeRepo, times(1)).deleteById(1);
-    }
+   
 }

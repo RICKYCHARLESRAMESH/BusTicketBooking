@@ -34,8 +34,7 @@ public class Payment {
 	private BigDecimal amount;
  
 	@Column(name = "payment_date")
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+
 	 
 	private LocalDateTime paymentDate;
  

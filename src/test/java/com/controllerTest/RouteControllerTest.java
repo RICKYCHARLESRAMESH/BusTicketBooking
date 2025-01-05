@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.model.Route;
 import com.service.RouteService;
 import com.controller.RouteController;
-import com.exception.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -108,14 +107,6 @@ public class RouteControllerTest {
                 .andExpect(content().string("Record Updated Successfully"));
     }
 
-    @Test
-    void testDeleteRoute() throws Exception {
-        doNothing().when(routeService).deleteByRouteId(1);
-
-        mockMvc.perform(delete("/api/routes/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Record Deleted Successfully"));
-    }
-
+   
    
 }

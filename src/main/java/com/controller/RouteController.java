@@ -19,9 +19,6 @@ public class RouteController {
     @Autowired
     private RouteService routeService;
     
-  
-    
-
     // Create a new route
     @PostMapping("/add")
     public ResponseEntity<String> createRoute(@RequestBody Route route) {
@@ -106,14 +103,5 @@ public class RouteController {
         return ResponseEntity.status(HttpStatus.OK).body(message); // Return success message
     }
 
-    // Delete a route by its ID
-    @DeleteMapping("/{route_id}")
-    public ResponseEntity<String> deleteRoute(@PathVariable Integer route_id) {
-        if (route_id <= 0) {
-            throw new CustomException("INVALIDID", "Invalid route ID: " + route_id);
-        }
-        routeService.deleteByRouteId(route_id); // Delete the route
-        String message = "Record Deleted Successfully";
-        return ResponseEntity.status(HttpStatus.OK).body(message); // Return success message
-    }
+   
 }

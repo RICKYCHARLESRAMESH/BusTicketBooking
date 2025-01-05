@@ -63,38 +63,8 @@ public class PaymentControllerTest {
         payment.setPaymentStatus(PaymentStatus.Success);
     }
 
-    @Test
-    public void testCreatePayment_Success() {
-        when(bookingDAO.getById(1)).thenReturn(booking);
-        when(customerDAO.getById(1)).thenReturn(customer);
-        when(paymentDAO.save(any(Payment.class))).thenReturn(payment);
-
-        ResponseEntity<String> response = paymentController.createPayment(payment);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Payment created successfully", response.getBody());
-    }
-
-    @Test
-    public void testCreatePayment_BookingNotFound() {
-        when(bookingDAO.getById(1)).thenReturn(null);
-
-        ResponseEntity<String> response = paymentController.createPayment(payment);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Booking not found", response.getBody());
-    }
-
-    @Test
-    public void testCreatePayment_CustomerNotFound() {
-        when(bookingDAO.getById(1)).thenReturn(booking);
-        when(customerDAO.getById(1)).thenReturn(null);
-
-        ResponseEntity<String> response = paymentController.createPayment(payment);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Customer not found", response.getBody());
-    }
+   
+   
 
     @Test
     public void testGetPaymentById_Success() {
