@@ -1,4 +1,4 @@
-package com.BusTicketBooking;
+package com.busTicketBooking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -46,12 +46,12 @@ public class BusTicketBookingApplication {
 	public CustomUserDetailsService userDetailsService() {
 		
 	 
-	    return new CustomUserDetailsService(); // Implement your own user details service
+	    return new CustomUserDetailsService(); 
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-	    return new BCryptPasswordEncoder(); // Use a password encoder of your choice
+	    return new BCryptPasswordEncoder(); 
 	}
 	
 	@Bean

@@ -1,19 +1,24 @@
 package com.controller;
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
+ 
 import com.exception.Response;
 import com.model.Role;
 import com.model.UserEntity;
 import com.service.RoleService;
 import com.service.UserService;
-
+ 
 import java.util.ArrayList;
 import java.util.List;
  
+/**
+* UserController is a REST controller responsible for managing user registrations.
+* It supports registration for users, drivers, and admins.
+*/
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api")
@@ -28,9 +33,14 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
  
+    /**
+     * Registers a new user.
+     *
+     * @param user The user entity containing registration details.
+     * @return ResponseEntity containing the status and message of the registration.
+     */
     @PostMapping("/user/register")
     public ResponseEntity<?> registerUser(@RequestBody UserEntity user) {
- 
         // Encode the password before saving the user
         user.setPassword(passwordEncoder.encode(user.getPassword()));
  
@@ -53,6 +63,12 @@ public class UserController {
         }
     }
  
+    /**
+     * Registers a new driver.
+     *
+     * @param user The user entity containing registration details.
+     * @return ResponseEntity containing the status and message of the registration.
+     */
     @PostMapping("/driver/register")
     public ResponseEntity<?> registerDriver(@RequestBody UserEntity user) {
         // Encode the password before saving the user
@@ -76,7 +92,13 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response("REGISTERFAIL", "Error creating DRIVER"));
         }
     }
-  
+ 
+    /**
+     * Registers a new admin.
+     *
+     * @param user The user entity containing registration details.
+     * @return ResponseEntity containing the status and message of the registration.
+     */
     @PostMapping("/admin/register")
     public ResponseEntity<?> registerAdmin(@RequestBody UserEntity user) {
         // Encode the password before saving the user
@@ -100,5 +122,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response("REGISTERFAIL", "Error creating Admin"));
         }
     }
- 
 }

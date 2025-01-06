@@ -63,12 +63,10 @@ public class Address {
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
-	//Added country (Bhargavi)
 	public String getCountry() {
         return country; // Getter for country
     }
 
-	//Added country (Bhargavi)
     public void setCountry(String country) {
         this.country = country; // Setter for country
     }
@@ -80,7 +78,7 @@ public class Address {
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
-        this.country = country; // Constructor with country (Bhargavi)
+        this.country = country; 
     }
  
 	public Address() {
